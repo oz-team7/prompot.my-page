@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>프롬프트 상세/편집 - Prompot</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://jiyoonlee-0908.github.io/oz-lecture/prompot/style.css">
+</head>
+<body class="bg-orange-50 min-h-screen flex flex-col">
+    <nav class="bg-white shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex">
+                    <!-- 로고 및 사이트 이름 -->
+                    <div class="flex-shrink-0 flex items-center">
+                        <img src="LogoImage_Prompot.png" alt="Prompot 로고" class="h-8 w-8 mr-2">
+                        <h1 class="text-xl font-bold text-orange-500">Prompot</h1>
+                    </div>
+                    <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
+                        <a href="index.html" class="text-orange-800 font-medium hover:text-orange-500">대시보드</a>
+                <a href="newpost.html" class="text-gray-600 hover:text-orange-500">프롬프트 생성</a>
+                <a href="prompt-list.html" class="text-gray-600 hover:text-orange-500">프롬프트 목록</a>
+                <a href="bookmark.html" class="text-gray-600 hover:text-orange-500">북마크</a>
+                <a href="category.html" class="text-gray-600 hover:text-orange-500">카테고리</a>
+                <a href="statistics.html" class="text-gray-600 hover:text-orange-500">통계</a>
+                
+                    </div>
+                </div>
+                <div class="-mr-2 flex items-center sm:hidden">
+                    <button type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-orange-500">
+                        <span class="sr-only">메뉴 열기</span>
+                        ☰
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-12">
+        <div class="bg-white shadow-md rounded-lg p-8">
+            <div class="flex justify-between items-center mb-8">
+                <h2 class="text-2xl font-bold text-gray-800">프롬프트 상세/편집</h2>
+                <div class="space-x-2">
+                    <button id="saveBtn" class="bg-orange-600 text-white px-4 py-2 rounded-md hover:bg-orange-700 transition-colors">저장</button>
+                    <button class="bg-gray-200 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-300 transition-colors">취소</button>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">프롬프트 제목</label>
+                    <input type="text" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500" value="AI 블로그 포스트 작성 프롬프트">
+                
+                    <label class="block text-sm font-medium text-gray-700 mt-6 mb-2">프롬프트 설명</label>
+                    <textarea class="w-full border border-gray-300 rounded-md px-3 py-2 h-32 focus:ring-2 focus:ring-blue-500">전문적이고 흥미로운 블로그 포스트를 작성하는 AI 프롬프트입니다. 특정 주제와 톤, 길이를 지정할 수 있습니다.</textarea>
+                
+                    <label class="block text-sm font-medium text-gray-700 mt-6 mb-2">카테고리</label>
+                    <select id="categorySelect" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500">
+                        <option value="콘텐츠 작성">콘텐츠 작성</option>
+                        <option value="마케팅">마케팅</option>
+                        <option value="기술 문서">기술 문서</option>
+                        <option value="디자인">디자인</option>
+                        <option value="기타">기타</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">프롬프트 본문</label>
+                    <textarea class="w-full border border-gray-300 rounded-md px-3 py-2 h-96 font-mono text-sm focus:ring-2 focus:ring-blue-500">You are an expert blog post writer. Create a comprehensive and engaging blog post about {topic} that is approximately {length} words long. 
+
+The post should have:
+- A compelling headline
+- An introduction that hooks the reader
+- Clear, structured sections
+- Practical insights and actionable advice
+- A conclusion that summarizes key points
+
+Tone: {tone}
+Target Audience: {audience}</textarea>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-white border-t border-gray-200">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-sm font-semibold text-gray-600 mb-4">서비스</h3>
+                    <ul class="space-y-2">
+                        <li><a href="index.html" class="text-gray-500 hover:text-orange-500">대시보드</a></li>
+                        <li><a href="newpost.html" class="text-gray-500 hover:text-orange-500">프롬프트 생성</a></li>
+                        <li><a href="category.html" class="text-gray-500 hover:text-orange-500">카테고리</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-sm font-semibold text-gray-600 mb-4">지원</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-500 hover:text-orange-500">도움말</a></li>
+                        <li><a href="#" class="text-gray-500 hover:text-orange-500">문의하기</a></li>
+                        <li><a href="#" class="text-gray-500 hover:text-orange-500">개인정보 처리방침</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-8 text-center text-sm text-gray-500">
+                © 2025 Prompot. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+document.getElementById('saveBtn').onclick = function() {
+    const title = document.querySelector('input[type="text"]').value;
+    const desc = document.querySelectorAll('textarea')[0].value;
+    const category = document.getElementById('categorySelect').value;
+    const body = document.querySelectorAll('textarea')[1].value;
+
+    const promptData = {
+        title,
+        desc,
+        category,
+        body
+    };
+
+    // 여러 프롬프트 저장: 배열로 관리
+    let promptList = JSON.parse(localStorage.getItem('promptList') || '[]');
+    promptList.push(promptData);
+    localStorage.setItem('promptList', JSON.stringify(promptList));
+
+    // 카테고리별 기록 추가
+    let categoryList = JSON.parse(localStorage.getItem('categoryList') || '{}');
+    if (!categoryList[category]) categoryList[category] = [];
+    categoryList[category].push(promptData);
+    localStorage.setItem('categoryList', JSON.stringify(categoryList));
+
+    alert('프롬프트가 저장되었습니다!');
+    window.location.href = "category.html"; // 저장 후 category.html로 이동
+};
+    </script>
+</body>
+</html>

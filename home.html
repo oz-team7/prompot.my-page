@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PromptVault - 프롬프트 관리의 시작</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 min-h-screen flex flex-col">
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <div class="flex items-center">
+                <img src="LogoImage_Prompot.png" alt="Prompot 로고" class="h-8 w-8 mr-2">
+                <h1 class="text-xl font-bold text-orange-500">Prompot</h1>
+            </div>
+            <div class="hidden md:flex space-x-6">
+                <a href="index.html" class="text-orange-800 font-medium hover:text-orange-500">대시보드</a>
+                <a href="newpost.html" class="text-gray-600 hover:text-orange-500">프롬프트 생성</a>
+                <a href="prompt-list.html" class="text-gray-600 hover:text-orange-500">프롬프트 목록</a>
+                <a href="bookmark.html" class="text-gray-600 hover:text-orange-500">북마크</a>
+                <a href="category.html" class="text-gray-600 hover:text-orange-500">카테고리</a>
+                <a href="statistics.html" class="text-gray-600 hover:text-orange-500">통계</a>
+                
+            </div>
+            <div class="md:hidden">
+                <button class="text-gray-600 hover:text-orange-500">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
+        <section class="bg-white rounded-lg shadow-md p-8">
+            <h1 class="text-3xl font-bold text-gray-800 mb-6">프롬프트 관리의 시작</h1>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <div>
+                    <h2 class="text-xl font-semibold text-blue-600 mb-4">최근 생성된 프롬프트</h2>
+                    <div class="space-y-4">
+                        <div class="bg-gray-100 p-4 rounded-md">
+                            <h3 class="font-medium text-gray-800">AI 마케팅 전략 프롬프트</h3>
+                            <p class="text-sm text-gray-600">소셜 미디어 마케팅을 위한 AI 생성 전략</p>
+                        </div>
+                        <div class="bg-gray-100 p-4 rounded-md">
+                            <h3 class="font-medium text-gray-800">코딩 학습 가이드</h3>
+                            <p class="text-sm text-gray-600">초보 개발자를 위한 단계별 학습 로드맵</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <h2 class="text-xl font-semibold text-green-600 mb-4">카테고리 요약</h2>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-green-50 p-4 rounded-md text-center">
+                            <div class="text-2xl font-bold text-green-600">12</div>
+                            <div class="text-sm text-gray-600">마케팅</div>
+                        </div>
+                        <div class="bg-blue-50 p-4 rounded-md text-center">
+                            <div class="text-2xl font-bold text-blue-600">8</div>
+                            <div class="text-sm text-gray-600">개발</div>
+                        </div>
+                        <div class="bg-purple-50 p-4 rounded-md text-center">
+                            <div class="text-2xl font-bold text-purple-600">5</div>
+                            <div class="text-sm text-gray-600">디자인</div>
+                        </div>
+                        <div class="bg-orange-50 p-4 rounded-md text-center">
+                            <div class="text-2xl font-bold text-orange-600">3</div>
+                            <div class="text-sm text-gray-600">기타</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-8 text-center">
+                <a href="#" class="inline-block bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 transition-colors">
+                    새 프롬프트 생성하기
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-white shadow-md">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 grid md:grid-cols-3 gap-8">
+            <div>
+                <h3 class="font-semibold text-gray-800 mb-4">서비스</h3>
+                <ul class="space-y-2">
+                    <li><a href="#" class="text-gray-600 hover:text-blue-600">프롬프트 생성</a></li>
+                    <li><a href="#" class="text-gray-600 hover:text-blue-600">카테고리</a></li>
+                    <li><a href="#" class="text-gray-600 hover:text-blue-600">북마크</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="font-semibold text-gray-800 mb-4">지원</h3>
+                <ul class="space-y-2">
+                    <li><a href="#" class="text-gray-600 hover:text-blue-600">도움말</a></li>
+                    <li><a href="#" class="text-gray-600 hover:text-blue-600">문의하기</a></li>
+                    <li><a href="#" class="text-gray-600 hover:text-blue-600">자주 묻는 질문</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="font-semibold text-gray-800 mb-4">법적 정보</h3>
+                <ul class="space-y-2">
+                    <li><a href="#" class="text-gray-600 hover:text-blue-600">이용약관</a></li>
+                    <li><a href="#" class="text-gray-600 hover:text-blue-600">개인정보 처리방침</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="text-center py-4 border-t text-gray-500 text-sm">
+            © 2024 PromptVault. All rights reserved.
+        </div>
+    </footer>
+</body>
+</html>
