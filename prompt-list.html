@@ -8,6 +8,51 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="../include.js"></script>
     <link rel="stylesheet" href="https://jiyoonlee-0908.github.io/oz-lecture/prompot/style.css">
+    <style>
+        /* 수정 모달 스타일 */
+        .edit-modal {
+            visibility: hidden;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .edit-modal.show {
+            visibility: visible;
+            opacity: 1;
+        }
+        .edit-modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            width: 90%;
+            max-width: 600px;
+            text-align: left;
+        }
+        .edit-modal-content label {
+            display: block;
+            font-size: 0.875rem; /* text-sm */
+            font-weight: 500; /* font-medium */
+            color: #374151; /* text-gray-700 */
+            margin-bottom: 0.5rem;
+        }
+        .edit-modal-content input,
+        .edit-modal-content textarea {
+            width: 100%;
+            border: 1px solid #d1d5db; /* border-gray-300 */
+            border-radius: 0.375rem; /* rounded-md */
+            padding: 0.5rem 0.75rem;
+            margin-bottom: 1rem;
+            font-family: inherit;
+            font-size: inherit;
+        }
+    </style>
 </head>
 <body class="bg-orange-50 min-h-screen flex flex-col">
     <div data-include="../navigation.html"></div>
@@ -21,26 +66,154 @@
 
     <div data-include="../footer.html"></div>
 
-    <script>
-    // localStorage에서 프롬프트 배열 불러오기
-    const promptList = document.getElementById('promptList');
-    const savedList = JSON.parse(localStorage.getItem('promptList') || '[]');
+    <!-- 프롬프트 수정 모달 -->
+    <div id="edit-modal" class="edit-modal">
+        <div class="edit-modal-content">
+            <h3 class="text-xl font-bold mb-6 text-gray-800">프롬프트 수정</h3>
+            <input type="hidden" id="edit-modal-index">
+            <div>
+                <label for="edit-modal-title">프롬프트 제목</label>
+                <input type="text" id="edit-modal-title">
+            </div>
+            <div>
+                <label for="edit-modal-desc">프롬프트 설명</label>
+                <textarea id="edit-modal-desc" rows="3"></textarea>
+            </div>
+            <div>
+                <label for="edit-modal-body">프롬프트 본문</label>
+                <textarea id="edit-modal-body" rows="8" class="font-mono text-sm"></textarea>
+            </div>
+            <div class="flex justify-end gap-3 mt-2">
+                <button id="edit-modal-save-btn" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors">저장</button>
+                <button id="edit-modal-cancel-btn" class="bg-gray-200 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-300 transition-colors">취소</button>
+            </div>
+        </div>
+    </div>
 
-    if (savedList.length > 0) {
-        savedList.forEach(data => {
-            const card = document.createElement('div');
-            card.className = "bg-white rounded-lg shadow p-6";
-            card.innerHTML = `
-                <h3 class="text-xl font-bold text-orange-600 mb-2">${data.title}</h3>
-                <p class="text-gray-700 mb-2">${data.desc}</p>
-                <p class="text-sm text-gray-500 mb-2">카테고리: ${data.category}</p>
-                <div class="bg-orange-50 rounded p-4 text-gray-800 whitespace-pre-line">${data.body}</div>
-            `;
-            promptList.appendChild(card);
+    <script>
+    const promptListEl = document.getElementById('promptList');
+
+    // 프롬프트 목록을 화면에 렌더링하는 함수
+    const renderPromptList = () => {
+      const savedList = JSON.parse(localStorage.getItem('promptList') || '[]');
+      promptListEl.innerHTML = ''; // 목록을 새로 그리기 전에 기존 내용을 비웁니다.
+
+      if (savedList.length > 0) {
+        savedList.forEach((data, index) => {
+          const card = document.createElement('div');
+          card.className = "bg-white rounded-lg shadow p-6";
+          // 각 버튼에 'data-index' 속성을 추가하여 어떤 항목인지 식별할 수 있도록 합니다.
+          card.innerHTML = `
+            <div class="flex justify-between items-start">
+                <div>
+                    <h3 class="text-xl font-bold text-orange-600 mb-2">${data.title}</h3>
+                    <p class="text-gray-700 mb-2">${data.desc}</p>
+                    <p class="text-sm text-gray-500 mb-2">카테고리: ${data.category}</p>
+                </div>
+                <div class="flex space-x-1 flex-shrink-0 ml-4">
+                    <button class="edit-btn p-2 text-gray-500 hover:bg-gray-100 rounded-full" data-index="${index}">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
+                            <path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                    <button class="delete-btn p-2 text-gray-500 hover:bg-gray-100 rounded-full" data-index="${index}">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="mt-4 bg-orange-50 rounded p-4 text-gray-800 whitespace-pre-line">${data.body}</div>
+          `;
+          promptListEl.appendChild(card);
         });
-    } else {
-        promptList.innerHTML = '<p class="text-gray-500">저장된 프롬프트가 없습니다.</p>';
+      } else {
+        promptListEl.innerHTML = '<p class="text-gray-500">저장된 프롬프트가 없습니다.</p>';
+      }
+    };
+
+    // 모달 요소 가져오기
+    const editModal = document.getElementById('edit-modal');
+    const editModalIndexInput = document.getElementById('edit-modal-index');
+    const editModalTitleInput = document.getElementById('edit-modal-title');
+    const editModalDescTextarea = document.getElementById('edit-modal-desc');
+    const editModalBodyTextarea = document.getElementById('edit-modal-body');
+    const editModalSaveBtn = document.getElementById('edit-modal-save-btn');
+    const editModalCancelBtn = document.getElementById('edit-modal-cancel-btn');
+
+    // 이벤트 위임: promptListEl에 이벤트 리스너를 한 번만 추가합니다.
+    promptListEl.addEventListener('click', (event) => {
+      // 클릭된 요소에서 가장 가까운 button을 찾습니다. 아이콘을 클릭해도 버튼을 찾을 수 있습니다.
+      const button = event.target.closest('button');
+
+      // 버튼이 아니면 아무것도 하지 않습니다.
+      if (!button) return;
+
+      const index = button.dataset.index;
+      if (index === undefined) return; // data-index가 없는 버튼은 무시합니다.
+
+      let savedList = JSON.parse(localStorage.getItem('promptList') || '[]');
+      const item = savedList[index];
+
+      if (!item) return; // 혹시 모를 오류 방지
+
+      // 삭제 아이콘 버튼 클릭 시
+      if (button.classList.contains('delete-btn')) {
+        if (confirm(`'${item.title}' 프롬프트를 정말 삭제하시겠습니까?`)) {
+          savedList.splice(index, 1); // 배열에서 해당 항목 제거
+          localStorage.setItem('promptList', JSON.stringify(savedList)); // localStorage 업데이트
+          renderPromptList(); // 목록 새로고침
+        }
+      }
+
+      // 수정 아이콘 버튼 클릭 시
+      if (button.classList.contains('edit-btn')) {
+        // 모달에 현재 데이터 채우기
+        editModalIndexInput.value = index;
+        editModalTitleInput.value = item.title;
+        editModalDescTextarea.value = item.desc;
+        editModalBodyTextarea.value = item.body;
+        
+        // 모달 보이기
+        editModal.classList.add('show');
+      }
+    });
+
+    // 모달 '취소' 버튼 이벤트
+    editModalCancelBtn.addEventListener('click', () => {
+        editModal.classList.remove('show');
+    });
+
+    // 모달 '저장' 버튼 이벤트
+    editModalSaveBtn.addEventListener('click', () => {
+        const index = editModalIndexInput.value;
+        if (index === '') return;
+
+        let savedList = JSON.parse(localStorage.getItem('promptList') || '[]');
+        savedList[index] = {
+            ...savedList[index], // category와 같은 다른 속성 유지
+            title: editModalTitleInput.value,
+            desc: editModalDescTextarea.value,
+            body: editModalBodyTextarea.value
+        };
+
+        localStorage.setItem('promptList', JSON.stringify(savedList));
+        editModal.classList.remove('show');
+        renderPromptList();
+    });
+
+    // 페이지가 로드될 때 프롬프트 목록을 처음으로 렌더링합니다.
+    renderPromptList();
+    </script>
+    <script>includeHTML();</script>
+</body>
+
+</html>
     }
+
+    // 페이지가 로드될 때 프롬프트 목록을 처음으로 렌더링합니다.
+    renderPromptList();
     </script>
     <script>includeHTML();</script>
 </body>
