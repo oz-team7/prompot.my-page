@@ -1,160 +1,476 @@
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prompot - 대시보드</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://jiyoonlee-0908.github.io/oz-lecture/prompot/style.css">
+  <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PROMPOT</title>
+  <link rel="stylesheet" href="ai-intro.css" />
+
+  <style>
+    /* ─── Reset & Base ───────────────────────────────── */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #fff;
+      color: #333;
+      line-height: 1.6;
+    }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+    ul {
+      list-style: none;
+    }
+
+    /* ─── Container ─────────────────────────────────── */
+    .container {
+      width: 90%;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    /* ─── Header / Nav ───────────────────────────────── */
+    header {
+      position: sticky;
+      top: 0;
+      background: #fff;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      z-index: 100;
+    }
+    .nav-container {
+      display: flex;
+      align-items: center;
+      padding: 15px 0;
+      gap: 25px; /* Add gap for children */
+    }
+    .logo-container {
+      display: flex;
+      align-items: center;
+    }
+    .logo-container img {
+      width: 40px;
+      height: auto;
+      margin-right: 10px;
+    }
+    .logo-text {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #FF7A00;
+    }
+    .nav-links {
+      margin-left: auto; /* Push to the right */
+    }
+    .nav-links ul {
+      display: flex;
+      align-items: center;
+      gap: 30px; /* 링크 간 간격 조정 */
+    }
+    .nav-links a {
+      font-size: 1rem;
+      font-weight: 600; /* 글씨를 조금 더 굵게 */
+      color: #4A5568; /* 차분한 회색톤 */
+      padding-bottom: 5px; /* 밑줄을 위한 공간 확보 */
+      position: relative;
+      transition: color 0.3s ease;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #FF7A00;
+      transition: width 0.3s ease-in-out;
+    }
+    .nav-links a:hover {
+      color: #FF7A00; /* 호버 시 메인 색상으로 변경 */
+    }
+    .nav-links a:hover::after {
+      width: 100%; /* 호버 시 밑줄이 채워짐 */
+    }
+    .login-button {
+      background: #FF7A00;
+      color: #fff;
+      border: none;
+      border-radius: 6px; /* Match nav links */
+      padding: 8px 18px; /* Adjust padding */
+      font-size: 1rem;
+      font-weight: 500; /* Match nav links */
+      cursor: pointer;
+      transition: background 0.3s ease; /* Smoother transition */
+    }
+    .login-button:hover {
+      background: #e66a00;
+    }
+
+    /* ─── Hero ───────────────────────────────────────── */
+    .hero {
+      background: #fff;
+    }
+    .hero .container {
+      text-align: center;
+      padding: 100px 0;
+    }
+    .hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+    .hero p {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+      color: #555;
+    }
+    .search-container {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .search-container input {
+      flex: 1;
+      padding: 15px 20px;
+      font-size: 1rem;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+    .search-container button {
+      background: #FF7A00;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 15px 25px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .search-container button:hover {
+      background: #e66a00;
+    }
+
+    /* ─── Prompt Examples ────────────────────────────── */
+    .prompt-examples {
+      background: #f9f9f9;
+    }
+    .prompt-examples .container {
+      padding: 60px 0;
+    }
+    .prompt-examples h2 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 40px;
+    }
+    .card-container {
+      display: grid;
+      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+    .card {
+      background: #fff;
+      border: 1px solid #eee;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+    .card h3 {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+      color: #FF7A00;
+    }
+    .card p {
+      color: #555;
+    }
+
+    /* ─── Features ───────────────────────────────────── */
+    .features {
+      background: #fff;
+    }
+    .features .container {
+      padding: 60px 0;
+    }
+    .features h2 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 40px;
+    }
+    .feature-grid {
+      display: grid;
+      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+    .feature {
+      text-align: center;
+    }
+    .feature h3 {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+    }
+    .feature p {
+      color: #555;
+    }
+
+    /* ─── FAQ ────────────────────────────────────────── */
+    .faq {
+      background: #f9f9f9;
+    }
+    .faq .container {
+      padding: 60px 0;
+    }
+    .faq h2 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 40px;
+    }
+    .faq details {
+      margin-bottom: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      background: #fff;
+      overflow: hidden;
+    }
+    .faq summary {
+      padding: 15px 20px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      list-style: none;
+    }
+    .faq summary::-webkit-details-marker {
+      display: none;
+    }
+    .faq details[open] summary {
+      background: #FF7A00;
+      color: #fff;
+    }
+    .faq p {
+      padding: 15px 20px;
+      border-top: 1px solid #eee;
+      color: #555;
+    }
+
+    /* ─── Footer ────────────────────────────────────── */
+    footer {
+      background: #FF7A00;
+      color: #fff;
+    }
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 0;
+    }
+    .footer-content a {
+      color: #fff;
+      text-decoration: underline;
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 12px; /* 링크 간 간격 */
+      flex-wrap: wrap; /* 창 줄일 때 줄바꿈 허용 */
+    }
+
+    .footer-links a {
+      color: #fff;
+      font-size: 0.9rem;
+      text-decoration: underline;
+    }
+
+
+
+    /* ─── Modal (로그인) ─────────────────────────────── */
+    .modal {
+      display: none; /* Initially hidden */
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-content {
+      background: #fff;
+      padding: 30px;
+      border-radius: 8px;
+      width: 90%;
+      max-width: 400px;
+      position: relative;
+    }
+    .modal-content .close {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    .modal-content form input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+    .modal-content form button {
+      width: 100%;
+      background: #FF7A00;
+      color: #fff;
+      border: none;
+      padding: 12px;
+      font-size: 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .modal-content form button:hover {
+      background: #e66a00;
+    }
+
+    /* Custom Styles */
+    .flex.space-x-2.pb-2 button {
+        border-color: transparent;
+    }
+
+    .nav-links li {
+        list-style-type: none;
+    }
+  </style>
+  <script src="include.js"></script>
 </head>
-<body class="bg-orange-50 min-h-screen flex flex-col">
-    <!-- 헤더 시작 -->
-    <nav class="bg-white shadow-sm sticky top-0 z-50">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-            <div class="flex items-center">
-                <img src="LogoImage_Prompot.png" alt="Prompot 로고" class="h-8 w-8 mr-2">
-                <h1 class="text-xl font-bold text-orange-500">PROMPOT</h1>
-            </div>
-            <div class="hidden md:flex space-x-6">
-                <a href="index.html" class="text-orange-800 font-medium hover:text-orange-500">대시보드</a>
-                <a href="newpost.html" class="text-gray-600 hover:text-orange-500">프롬프트 생성</a>
-                <a href="prompt-list.html" class="text-gray-600 hover:text-orange-500">프롬프트 목록</a>
-                <a href="bookmark.html" class="text-gray-600 hover:text-orange-500">북마크</a>
-                <a href="category.html" class="text-gray-600 hover:text-orange-500">카테고리</a>
-                <a href="statistics.html" class="text-gray-600 hover:text-orange-500">통계</a>
-                
-            </div>
-            <div class="md:hidden">
-                <button class="text-gray-600 hover:text-orange-500">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                    </svg>
-                </button>
-            </div>
-        </div>
-    </nav>
-    <!-- 헤더 끝 -->
-    <main class="flex-grow max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <section class="md:col-span-2 space-y-8">
-                <div class="bg-white rounded-lg shadow-sm p-6">
-                    <div class="flex justify-between items-center mb-4">
-                        <h2 class="text-xl font-semibold text-gray-800">최근 프롬프트</h2>
-                    </div>
-                    <div class="space-y-4">
-                        <div class="flex justify-between items-center border-b pb-3">
-                            <div>
-                                <p class="font-medium text-gray-800">AI 마케팅 카피라이팅</p>
-                                <p class="text-sm text-gray-500">소셜미디어 광고용</p>
-                            </div>
-                            <span class="text-sm text-orange-600 bg-orange-100 px-2 py-1 rounded-full">활성</span>
-                        </div>
-                        <div class="flex justify-between items-center border-b pb-3">
-                            <div>
-                                <p class="font-medium text-gray-800">블로그 포스트 개요</p>
-                                <p class="text-sm text-gray-500">기술 블로그 주제</p>
-                            </div>
-                            <span class="text-sm text-yellow-600 bg-yellow-100 px-2 py-1 rounded-full">대기 중</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <div>
-                                <p class="font-medium text-gray-800">제품 설명서 생성</p>
-                                <p class="text-sm text-gray-500">전자기기 매뉴얼</p>
-                            </div>
-                            <span class="text-sm text-blue-600 bg-blue-50 px-2 py-1 rounded-full">완료</span>
-                        </div>
-                    </div>
-                    <div class="flex justify-end mt-2">
-                        <a href="prompt-list.html" class="text-sm text-orange-600 hover:underline font-medium">프롬프트 전체보기</a>
-                    </div>
-                </div>
-                <div class="bg-white rounded-lg shadow-sm p-6">
-                    <h2 class="text-xl font-semibold text-gray-800 mb-4">빠른 작업</h2>
-                    <div class="space-y-4">
-                        <a href="newpost.html" class="block bg-orange-100 hover:bg-orange-200 rounded-lg p-4 text-center text-orange-600 font-medium">
-                            + 새 프롬프트 생성
-                        </a>
-                        <a href="category.html" class="block bg-orange-50 hover:bg-orange-100 rounded-lg p-4 text-center text-orange-500 font-medium">
-                            카테고리 관리
-                        </a>
-                    </div>
-                </div>
-                <div class="bg-white rounded-lg shadow-sm p-6">
-                    <h2 class="text-xl font-semibold text-gray-800 mb-4">프롬프트 요약</h2>
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        <div class="bg-orange-100 rounded-lg p-4 text-center">
-                            <p class="text-3xl font-bold text-orange-600">42</p>
-                            <p class="text-sm text-gray-600">총 프롬프트</p>
-                        </div>
-                        <div class="bg-orange-50 rounded-lg p-4 text-center">
-                            <p class="text-3xl font-bold text-orange-500">12</p>
-                            <p class="text-sm text-gray-600">활성 프롬프트</p>
-                        </div>
-                        <div class="bg-yellow-100 rounded-lg p-4 text-center">
-                            <p class="text-3xl font-bold text-yellow-600">6</p>
-                            <p class="text-sm text-gray-600">카테고리</p>
-                        </div>
-                        <div class="bg-purple-50 rounded-lg p-4 text-center">
-                            <p class="text-3xl font-bold text-purple-600">3.5k</p>
-                            <p class="text-sm text-gray-600">총 사용량</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <section class="space-y-8">
-                <div class="bg-white rounded-lg shadow-sm p-6">
-                    <h2 class="text-xl font-semibold text-gray-800 mb-4">카테고리</h2>
-                    <div class="space-y-3">
-                        <div class="flex justify-between items-center">
-                            <div class="flex items-center space-x-3">
-                                <span class="w-3 h-3 bg-orange-500 rounded-full"></span>
-                                <span>마케팅</span>
-                            </div>
-                            <span class="text-sm text-gray-500">12개</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <div class="flex items-center space-x-3">
-                                <span class="w-3 h-3 bg-green-500 rounded-full"></span>
-                                <span>기술 문서</span>
-                            </div>
-                            <span class="text-sm text-gray-500">8개</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <div class="flex items-center space-x-3">
-                                <span class="w-3 h-3 bg-purple-500 rounded-full"></span>
-                                <span>제품 설명</span>
-                            </div>
-                            <span class="text-sm text-gray-500">6개</span>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </div>
-    </main>
-    <!-- 푸터(footer) -->
-    <footer class="bg-white border-t">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 grid grid-cols-2 md:grid-cols-4 gap-8">
-            <div>
-                <h3 class="font-semibold text-gray-800 mb-4">서비스</h3>
-                <ul class="space-y-2">
-                    <li><a href="index.html" class="text-gray-600 hover:text-orange-500">대시보드</a></li>
-                    <li><a href="newpost.html" class="text-gray-600 hover:text-orange-500">프롬프트 생성</a></li>
-                    <li><a href="category.html" class="text-gray-600 hover:text-orange-500">카테고리</a></li>
-                    <li><a href="statistics.html" class="text-gray-600 hover:text-orange-500">통계</a></li>
-                </ul>
-            </div>
-            <div>
-                <h3 class="font-semibold text-gray-800 mb-4">지원</h3>
-                <ul class="space-y-2">
-                    <li><a href="#" class="text-gray-600 hover:text-orange-500">도움말</a></li>
-                    <li><a href="#" class="text-gray-600 hover:text-orange-500">문의하기</a></li>
-                    <li><a href="#" class="text-gray-600 hover:text-orange-500">커뮤니티</a></li>
-                </ul>
-            </div>
-            <div class="col-span-2 text-center md:text-right">
-                <p class="text-gray-600">© 2025 Prompot. All rights reserved.</p>
+<body>
+  <header>
+    <div class="container nav-container">
+  
+      <!-- ✅ 로고 영역 -->
+      <a href="/" class="logo-container">
+        <!-- 여기에 이미지 넣기 -->
+        <img src="favicon.png" alt="PROMPOT 로고" />
+        <span class="logo-text">PROMPOT</span>
+      </a>
+  
+      <!-- 내비게이션 링크 -->
+      <nav class="nav-links">
+        <ul>
+          <li><a href="prompot.my-page/dash.html">대시보드</a></li>
+          <li><a href="prompot.my-page/newpost.html">프롬프트 생성</a></li>
+          <li><a href="prompot.my-page/prompt-list.html">프롬프트 목록</a></li>
+          <li><a href="prompot.my-page/category.html">카테고리</a></li>
+          <li><a href="prompot.my-page/profile.html">내정보</a></li>
+        </ul>
+      </nav>
+  
+      <!-- 로그인 버튼 -->
+      <button id="loginBtn" class="login-button">로그인</button>
+  
+    </div>
+  </header>
+  
+  <main class="container" style="padding: 50px 0;">
+    <section class="features">
+        <div class="container">
+            <h2>서비스 바로가기</h2>
+            <div class="card-container" style="gap: 30px;">
+                <a href="prompot.my-page/dash.html" class="card" style="text-decoration: none; color: inherit; display: block;">
+                    <h3>대시보드</h3>
+                    <p>나의 프롬프트 활동을 한눈에 확인하세요.</p>
+                </a>
+                <a href="prompot.my-page/newpost.html" class="card" style="text-decoration: none; color: inherit; display: block;">
+                    <h3>프롬프트 생성</h3>
+                    <p>새로운 프롬프트를 만들고 관리합니다.</p>
+                </a>
+                <a href="prompot.my-page/prompt-list.html" class="card" style="text-decoration: none; color: inherit; display: block;">
+                    <h3>프롬프트 목록</h3>
+                    <p>내가 생성한 모든 프롬프트를 확인합니다.</p>
+                </a>
+                <a href="prompot.my-page/catalog.html" class="card" style="text-decoration: none; color: inherit; display: block;">
+                    <h3>프롬프트 카탈로그</h3>
+                    <p>다양한 종류의 프롬프트를 탐색해보세요.</p>
+                </a>
+                <a href="prompot.my-page/category.html" class="card" style="text-decoration: none; color: inherit; display: block;">
+                    <h3>카테고리 관리</h3>
+                    <p>프롬프트를 카테고리별로 정리하고 관리합니다.</p>
+                </a>
+                <a href="prompot.my-page/bookmark.html" class="card" style="text-decoration: none; color: inherit; display: block;">
+                    <h3>북마크</h3>
+                    <p>자주 사용하는 프롬프트를 북마크하고 빠르게 접근하세요.</p>
+                </a>
+                <a href="prompot.my-page/statistics.html" class="card" style="text-decoration: none; color: inherit; display: block;">
+                    <h3>통계</h3>
+                    <p>프롬프트 사용 통계를 확인하고 인사이트를 얻으세요.</p>
+                </a>
+                <a href="prompot.my-page/profile.html" class="card" style="text-decoration: none; color: inherit; display: block;">
+                    <h3>내 정보</h3>
+                    <p>계정 정보를 확인하고 수정합니다.</p>
+                </a>
             </div>
         </div>
-    </footer>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-content">
+      <p>&copy; 2025 PROMPOT. All rights reserved.</p>
+      <div class="footer-links">
+        <a href="terms.html">이용 약관</a>
+        <a href="privacy.html">개인정보 처리방침</a>
+        <a href="mailto:support@prompot.ai">문의하기</a>
+        <a href="privacy.html">ADMIN</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- 로그인 모달 -->
+  <div id="loginModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <form id="loginForm">
+        <h2 style="text-align: center; margin-bottom: 20px; color: #333;">로그인</h2>
+        <input type="email" placeholder="이메일" required />
+        <input type="password" placeholder="비밀번호" required />
+        <button type="submit">로그인</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- <script>
+    // 페이지의 모든 콘텐츠가 로드된 후 스크립트 실행
+    document.addEventListener("DOMContentLoaded", function() {
+      const modal = document.getElementById("loginModal");
+      const btn = document.getElementById("loginBtn");
+      const span = document.getElementsByClassName("close")[0];
+
+      // 로그인 버튼 클릭 시 모달 표시
+      if (btn) {
+        btn.onclick = function() {
+          modal.style.display = "flex";
+        }
+      }
+
+      // 닫기(x) 버튼 클릭 시 모달 숨김
+      if (span) {
+        span.onclick = function() {
+          modal.style.display = "none";
+        }
+      }
+    });
+  </script> -->
+  <script> includeHTML(); </script>
 </body>
+
+
 </html>

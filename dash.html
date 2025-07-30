@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prompot - 대시보드</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://jiyoonlee-0908.github.io/oz-lecture/prompot/style.css">
+</head>
+<body class="bg-orange-50 min-h-screen flex flex-col">
+    <!-- 헤더 시작 -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <div class="flex items-center">
+                <img src="LogoImage_Prompot.png" alt="Prompot 로고" class="h-8 w-8 mr-2">
+                <h1 class="text-xl font-bold text-orange-500">PROMPOT</h1>
+            </div>
+            <div class="hidden md:flex space-x-6">
+                <a href="index.html" class="text-orange-800 font-medium hover:text-orange-500">대시보드</a>
+                <a href="newpost.html" class="text-gray-600 hover:text-orange-500">프롬프트 생성</a>
+                <a href="prompt-list.html" class="text-gray-600 hover:text-orange-500">프롬프트 목록</a>
+                <a href="bookmark.html" class="text-gray-600 hover:text-orange-500">북마크</a>
+                <a href="category.html" class="text-gray-600 hover:text-orange-500">카테고리</a>
+                <a href="statistics.html" class="text-gray-600 hover:text-orange-500">통계</a>
+                
+            </div>
+            <div class="md:hidden">
+                <button class="text-gray-600 hover:text-orange-500">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+    <!-- 헤더 끝 -->
+    <main class="flex-grow max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <section class="md:col-span-2 space-y-8">
+                <div class="bg-white rounded-lg shadow-sm p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-xl font-semibold text-gray-800">최근 프롬프트</h2>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center border-b pb-3">
+                            <div>
+                                <p class="font-medium text-gray-800">AI 마케팅 카피라이팅</p>
+                                <p class="text-sm text-gray-500">소셜미디어 광고용</p>
+                            </div>
+                            <span class="text-sm text-orange-600 bg-orange-100 px-2 py-1 rounded-full">활성</span>
+                        </div>
+                        <div class="flex justify-between items-center border-b pb-3">
+                            <div>
+                                <p class="font-medium text-gray-800">블로그 포스트 개요</p>
+                                <p class="text-sm text-gray-500">기술 블로그 주제</p>
+                            </div>
+                            <span class="text-sm text-yellow-600 bg-yellow-100 px-2 py-1 rounded-full">대기 중</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <p class="font-medium text-gray-800">제품 설명서 생성</p>
+                                <p class="text-sm text-gray-500">전자기기 매뉴얼</p>
+                            </div>
+                            <span class="text-sm text-blue-600 bg-blue-50 px-2 py-1 rounded-full">완료</span>
+                        </div>
+                    </div>
+                    <div class="flex justify-end mt-2">
+                        <a href="prompt-list.html" class="text-sm text-orange-600 hover:underline font-medium">프롬프트 전체보기</a>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg shadow-sm p-6">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">빠른 작업</h2>
+                    <div class="space-y-4">
+                        <a href="newpost.html" class="block bg-orange-100 hover:bg-orange-200 rounded-lg p-4 text-center text-orange-600 font-medium">
+                            + 새 프롬프트 생성
+                        </a>
+                        <a href="category.html" class="block bg-orange-50 hover:bg-orange-100 rounded-lg p-4 text-center text-orange-500 font-medium">
+                            카테고리 관리
+                        </a>
+                    </div>
+                </div>
+                <div class="bg-white rounded-lg shadow-sm p-6">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">프롬프트 요약</h2>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div class="bg-orange-100 rounded-lg p-4 text-center">
+                            <p class="text-3xl font-bold text-orange-600">42</p>
+                            <p class="text-sm text-gray-600">총 프롬프트</p>
+                        </div>
+                        <div class="bg-orange-50 rounded-lg p-4 text-center">
+                            <p class="text-3xl font-bold text-orange-500">12</p>
+                            <p class="text-sm text-gray-600">활성 프롬프트</p>
+                        </div>
+                        <div class="bg-yellow-100 rounded-lg p-4 text-center">
+                            <p class="text-3xl font-bold text-yellow-600">6</p>
+                            <p class="text-sm text-gray-600">카테고리</p>
+                        </div>
+                        <div class="bg-purple-50 rounded-lg p-4 text-center">
+                            <p class="text-3xl font-bold text-purple-600">3.5k</p>
+                            <p class="text-sm text-gray-600">총 사용량</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="space-y-8">
+                <div class="bg-white rounded-lg shadow-sm p-6">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">카테고리</h2>
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center space-x-3">
+                                <span class="w-3 h-3 bg-orange-500 rounded-full"></span>
+                                <span>마케팅</span>
+                            </div>
+                            <span class="text-sm text-gray-500">12개</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center space-x-3">
+                                <span class="w-3 h-3 bg-green-500 rounded-full"></span>
+                                <span>기술 문서</span>
+                            </div>
+                            <span class="text-sm text-gray-500">8개</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center space-x-3">
+                                <span class="w-3 h-3 bg-purple-500 rounded-full"></span>
+                                <span>제품 설명</span>
+                            </div>
+                            <span class="text-sm text-gray-500">6개</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+    <!-- 푸터(footer) -->
+    <footer class="bg-white border-t">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div>
+                <h3 class="font-semibold text-gray-800 mb-4">서비스</h3>
+                <ul class="space-y-2">
+                    <li><a href="index.html" class="text-gray-600 hover:text-orange-500">대시보드</a></li>
+                    <li><a href="newpost.html" class="text-gray-600 hover:text-orange-500">프롬프트 생성</a></li>
+                    <li><a href="category.html" class="text-gray-600 hover:text-orange-500">카테고리</a></li>
+                    <li><a href="statistics.html" class="text-gray-600 hover:text-orange-500">통계</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="font-semibold text-gray-800 mb-4">지원</h3>
+                <ul class="space-y-2">
+                    <li><a href="#" class="text-gray-600 hover:text-orange-500">도움말</a></li>
+                    <li><a href="#" class="text-gray-600 hover:text-orange-500">문의하기</a></li>
+                    <li><a href="#" class="text-gray-600 hover:text-orange-500">커뮤니티</a></li>
+                </ul>
+            </div>
+            <div class="col-span-2 text-center md:text-right">
+                <p class="text-gray-600">© 2025 Prompot. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
