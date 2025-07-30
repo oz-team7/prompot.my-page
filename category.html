@@ -3,35 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>프롬프트 카테고리 - Prompot</title>
+    <title>PROMPOT</title>
+    <link rel="icon" href="../prompot.my-page/favicon.png" type="image/png">
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://jiyoonlee-0908.github.io/oz-lecture/prompot/style.css">
+    <script src="../include.js"></script>
 </head>
 <body class="bg-orange-50 min-h-screen flex flex-col">
-    <!-- 헤더(nav) -->
-<nav class="bg-white shadow-sm sticky top-0 z-50">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-        <div class="flex items-center">
-            <img src="LogoImage_Prompot.png" alt="Prompot 로고" class="h-8 w-8 mr-2">
-            <h1 class="text-xl font-bold text-orange-500">Prompot</h1>
-        </div>
-        <div class="hidden md:flex space-x-6">
-            <a href="index.html" class="text-orange-800 font-medium hover:text-orange-500">대시보드</a>
-                <a href="newpost.html" class="text-gray-600 hover:text-orange-500">프롬프트 생성</a>
-                <a href="prompt-list.html" class="text-gray-600 hover:text-orange-500">프롬프트 목록</a>
-                <a href="bookmark.html" class="text-gray-600 hover:text-orange-500">북마크</a>
-                <a href="category.html" class="text-gray-600 hover:text-orange-500">카테고리</a>
-                <a href="statistics.html" class="text-gray-600 hover:text-orange-500">통계</a>
-                
-        </div>
-        <div class="md:hidden">
-            <button class="text-gray-600 hover:text-orange-500">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                </svg>
-            </button>
-        </div>
-    </div>
-</nav>
+    <div data-include="../navigation.html"></div>
 
     <main class="flex-grow max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-12">
         <div class="bg-white shadow-md rounded-lg p-6">
@@ -124,32 +103,6 @@
         </div>
     </main>
 
-    <!-- 푸터(footer) -->
-<footer class="bg-white border-t">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 grid grid-cols-2 md:grid-cols-4 gap-8">
-        <div>
-            <h3 class="font-semibold text-gray-800 mb-4">서비스</h3>
-            <ul class="space-y-2">
-                <li><a href="index.html" class="text-gray-600 hover:text-orange-500">대시보드</a></li>
-                <li><a href="newpost.html" class="text-gray-600 hover:text-orange-500">프롬프트 생성</a></li>
-                <li><a href="category.html" class="text-gray-600 hover:text-orange-500">카테고리</a></li>
-                <li><a href="statistics.html" class="text-gray-600 hover:text-orange-500">통계</a></li>
-            </ul>
-        </div>
-        <div>
-            <h3 class="font-semibold text-gray-800 mb-4">지원</h3>
-            <ul class="space-y-2">
-                <li><a href="#" class="text-gray-600 hover:text-orange-500">도움말</a></li>
-                <li><a href="#" class="text-gray-600 hover:text-orange-500">문의하기</a></li>
-                <li><a href="#" class="text-gray-600 hover:text-orange-500">커뮤니티</a></li>
-            </ul>
-        </div>
-        <div class="col-span-2 text-center md:text-right">
-            <p class="text-gray-600">© 2025 Prompot. All rights reserved.</p>
-        </div>
-    </div>
-</footer>
-
     <!-- 모달 영역 추가 -->
 <div id="categoryModal" class="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50 hidden">
     <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6">
@@ -179,8 +132,9 @@
     </div>
 </div>
 
-    <script>
-let selectedColor = "bg-blue-500";
+    <div data-include="../footer.html"></div>
+
+    <script> let selectedColor = "bg-blue-500";
 
 // 색상 버튼 클릭 시 선택 표시
 document.querySelectorAll('.color-btn').forEach(btn => {
@@ -276,5 +230,7 @@ document.querySelectorAll('#categoryList > div').forEach(card => {
     }
 });
     </script>
+    <script>includeHTML();</script>
 </body>
+
 </html>
