@@ -44,8 +44,9 @@
         <div class="bg-white shadow-lg rounded-xl p-8 md:p-10">
             <div class="flex flex-col sm:flex-row items-center space-y-6 sm:space-y-0 sm:space-x-8 mb-10">
                 <div class="relative">
-                    <img src="https://placehold.co/120x120/ffedd5/ea580c?text=P" alt="프로필 이미지" class="rounded-full w-32 h-32 object-cover border-4 border-orange-100">
-                    <button class="absolute bottom-0 right-0 bg-orange-600 text-white rounded-full p-2 hover:bg-orange-700 transition-colors">
+                    <img id="profile-image" src="https://placehold.co/120x120/ffedd5/ea580c?text=P" alt="프로필 이미지" class="rounded-full w-32 h-32 object-cover border-4 border-orange-100">
+                    <input type="file" id="profile-image-input" class="hidden" accept="image/*">
+                    <button id="change-picture-btn" class="absolute bottom-0 right-0 bg-orange-600 text-white rounded-full p-2 hover:bg-orange-700 transition-colors" title="프로필 사진 변경">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                             <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
                             <path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd" />
@@ -70,16 +71,6 @@
                             <label class="block text-sm font-medium text-gray-700">이메일</label>
                             <input id="profile-email" type="email" value="prompt_master@example.com" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm px-3 py-2">
                         </div>
-                    </div>
-                </div>
-
-                <div class="bg-white border border-gray-200 p-6 rounded-lg">
-                    <h3 class="text-xl font-bold mb-6 text-orange-600">계정 설정</h3>
-                    <div class="space-y-4">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700">비밀번호 변경</label>
-                            <input id="profile-password" type="password" placeholder="새 비밀번호" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm px-3 py-2">
-                        </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">알림 설정</label>
                             <div class="flex items-center mt-2">
@@ -89,9 +80,32 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="bg-white border border-gray-200 p-6 rounded-lg">
+                    <h3 class="text-xl font-bold mb-6 text-orange-600">계정 설정</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">현재 비밀번호</label>
+                            <input id="profile-current-password" type="password" placeholder="현재 사용 중인 비밀번호" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm px-3 py-2">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">새 비밀번호</label>
+                            <input id="profile-password" type="password" placeholder="새 비밀번호" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm px-3 py-2">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">새 비밀번호 확인</label>
+                            <input id="profile-password-confirm" type="password" placeholder="새 비밀번호 확인" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-orange-500 focus:border-orange-500 sm:text-sm px-3 py-2">
+                            <p id="password-error" class="text-red-500 text-sm mt-1" style="display: none;">새 비밀번호가 일치하지 않습니다.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
 
+            <div class="mt-10 flex justify-end space-x-4">
+                <button id="saveBtn" class="bg-orange-600 text-white px-5 py-2 rounded-md hover:bg-orange-700 transition-colors font-medium shadow-sm hover:shadow-md">저장</button>
+                <button id="cancelBtn" class="bg-gray-200 text-gray-700 px-5 py-2 rounded-md hover:bg-gray-300 transition-colors font-medium">취소</button>
             </div>
+
         </div>
     </main>
 
@@ -100,55 +114,121 @@
    
 
     <script>
-// 토스트 메시지를 표시하는 함수
-function showToast(message) {
-    const toast = document.getElementById('toast-message');
-    toast.textContent = message;
-    toast.classList.add('show');
+        document.addEventListener('htmlIncluded', () => {
+            // DOM Elements
+            const profileImage = document.getElementById('profile-image');
+            const profileImageInput = document.getElementById('profile-image-input');
+            const changePictureBtn = document.getElementById('change-picture-btn');
+            const nicknameInput = document.getElementById('profile-nickname');
+            const emailInput = document.getElementById('profile-email');
+            const currentPasswordInput = document.getElementById('profile-current-password');
+            const passwordInput = document.getElementById('profile-password');
+            const passwordConfirmInput = document.getElementById('profile-password-confirm');
+            const passwordError = document.getElementById('password-error');
+            const newsletterCheckbox = document.getElementById('profile-newsletter');
+            const nameDisplay = document.getElementById('profile-name-display');
+            const emailDisplay = document.getElementById('profile-email-display');
+            const saveBtn = document.getElementById('saveBtn');
+            const cancelBtn = document.getElementById('cancelBtn');
+            const toast = document.getElementById('toast-message');
 
-    // 3초 후에 토스트를 숨깁니다.
-    setTimeout(function(){ 
-        toast.classList.remove('show'); 
-    }, 3000);
-}
+            let tempImageSrc = null; // To hold the new image before saving
 
-document.getElementById('saveBtn').onclick = function() {
-    // 입력값 가져오기
-    const name = document.querySelector('input[type="text"]').value;
-    const email = document.querySelector('input[type="email"]').value;
-    const password = document.querySelector('input[type="password"]').value;
-    const emailNotify = document.querySelector('input[type="checkbox"]').checked;
+            // --- Functions ---
+            function showToast(message) {
+                toast.textContent = message;
+                toast.classList.add('show');
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 3000);
+            }
 
-    // localStorage에 저장
-    const profileData = {
-        name,
-        email,
-        password,
-        emailNotify
-    };
-    localStorage.setItem('profileData', JSON.stringify(profileData));
-    showToast('프로필이 저장되었습니다!');
-};
+            function loadProfileData() {
+                const profileData = JSON.parse(localStorage.getItem('profileData') || '{}');
+                nicknameInput.value = profileData.nickname || '김프롬프트';
+                emailInput.value = profileData.email || 'prompt_master@example.com';
+                currentPasswordInput.value = '';
+                passwordInput.value = '';
+                passwordConfirmInput.value = '';
+                passwordError.style.display = 'none';
+                newsletterCheckbox.checked = profileData.newsletter || false;
+                profileImage.src = profileData.image || 'https://placehold.co/120x120/ffedd5/ea580c?text=P';
+                
+                // Update display headers
+                nameDisplay.textContent = nicknameInput.value;
+                emailDisplay.textContent = emailInput.value;
+                
+                tempImageSrc = null; // Reset temp image on load/cancel
+            }
 
-document.getElementById('cancelBtn').onclick = function() {
-    // 저장 전 입력값을 localStorage에서 불러와서 복원
-    const profileData = JSON.parse(localStorage.getItem('profileData') || '{}');
-    if(profileData.name) document.querySelector('input[type="text"]').value = profileData.name;
-    if(profileData.email) document.querySelector('input[type="email"]').value = profileData.email;
-    document.querySelector('input[type="password"]').value = "";
-    document.querySelector('input[type="checkbox"]').checked = !!profileData.emailNotify;
-    showToast('변경 사항이 취소되었습니다.');
-};
+            // --- Event Listeners ---
+            changePictureBtn.addEventListener('click', () => {
+                profileImageInput.click();
+            });
 
-// 페이지 로드 시 기존 데이터 불러오기
-window.onload = function() {
-    const profileData = JSON.parse(localStorage.getItem('profileData') || '{}');
-    if(profileData.name) document.querySelector('input[type="text"]').value = profileData.name;
-    if(profileData.email) document.querySelector('input[type="email"]').value = profileData.email;
-    document.querySelector('input[type="password"]').value = "";
-    document.querySelector('input[type="checkbox"]').checked = !!profileData.emailNotify;
-};
-</script>
+            profileImageInput.addEventListener('change', (event) => {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        tempImageSrc = e.target.result;
+                        profileImage.src = tempImageSrc; // Show preview
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            saveBtn.addEventListener('click', () => {
+                const currentPassword = currentPasswordInput.value;
+                const newPassword = passwordInput.value;
+                const confirmPassword = passwordConfirmInput.value;
+
+                const profileDataToSave = {
+                    nickname: nicknameInput.value,
+                    email: emailInput.value,
+                    newsletter: newsletterCheckbox.checked,
+                    image: tempImageSrc || profileImage.src
+                };
+
+                // --- Password Validation ---
+                if (newPassword) {
+                    const existingProfileData = JSON.parse(localStorage.getItem('profileData') || '{}');
+                    const correctCurrentPassword = existingProfileData.password || 'password';
+
+                    if (currentPassword !== correctCurrentPassword) {
+                        showToast('현재 비밀번호가 일치하지 않습니다.');
+                        return;
+                    }
+
+                    if (newPassword !== confirmPassword) {
+                        passwordError.style.display = 'block';
+                        return;
+                    }
+                    
+                    profileDataToSave.password = newPassword;
+                    passwordError.style.display = 'none';
+                }
+
+                localStorage.setItem('profileData', JSON.stringify(profileDataToSave));
+                
+                // Update display headers after saving
+                nameDisplay.textContent = profileDataToSave.nickname;
+                emailDisplay.textContent = profileDataToSave.email;
+                
+                loadProfileData(); // Clear fields and reset state
+                tempImageSrc = null; // Reset temp image
+                showToast('프로필이 저장되었습니다!');
+            });
+
+            cancelBtn.addEventListener('click', () => {
+                loadProfileData(); // Revert to last saved state
+                showToast('변경 사항이 취소되었습니다.');
+            });
+
+            // Initial Load
+            loadProfileData();
+        });
+    </script>
     <script> includeHTML(); </script>
 </body>
 </html>
