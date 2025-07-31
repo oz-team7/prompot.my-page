@@ -19,6 +19,28 @@
             margin-top: 0.25rem;
             display: none; /* 기본적으로 숨김 */
         }
+        /* 토스트 메시지 스타일 */
+        .toast {
+            visibility: hidden; /* 기본적으로 숨김 */
+            min-width: 250px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 8px;
+            padding: 16px;
+            position: fixed;
+            z-index: 1000;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        .toast.show {
+            visibility: visible;
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+        }
     </style>
 </head>
 <body class="bg-orange-50 min-h-screen flex flex-col">
@@ -67,13 +89,27 @@
         </div>
     </main>
 
+    <div id="toast-message" class="toast"></div>
     <div data-include="footer.html"></div>
 
     <script>
+        // 토스트 메시지를 표시하는 함수
+        function showToast(message, duration = 3000) {
+            return new Promise((resolve) => {
+                const toast = document.getElementById('toast-message');
+                toast.textContent = message;
+                toast.classList.add('show');
+
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                    resolve();
+                }, duration);
+            });
+        }
+
         // DOM이 완전히 로드된 후 스크립트 실행
-        document.addEventListener('DOMContentLoaded', (event) => {
-            // includeHTML이 완료된 후 DOM 요소에 접근하기 위해 약간의 지연을 줍니다.
-            setTimeout(() => {
+        // include.js가 모든 파일을 로드한 후 발생하는 'htmlIncluded' 이벤트를 수신합니다.
+        document.addEventListener('htmlIncluded', function() {
                 const signupForm = document.getElementById('signupForm');
                 const passwordInput = document.getElementById('password');
                 const passwordConfirmInput = document.getElementById('password-confirm');
@@ -95,9 +131,10 @@
                         }
 
                         // 실제 회원가입 처리 로직 (서버 전송 등)은 여기에 추가합니다.
-                        alert('회원가입이 완료되었습니다! 로그인 해주세요.');
-                        
-                        if (loginModal) loginModal.style.display = 'flex';
+                        showToast('회원가입이 완료되었습니다! 로그인 해주세요.', 2000)
+                            .then(() => {
+                                if (loginModal) loginModal.style.display = 'flex';
+                            });
                     });
                 }
 
@@ -107,7 +144,6 @@
                         if (loginModal) loginModal.style.display = 'flex';
                     });
                 }
-            }, 100); // 100ms 지연
         });
     </script>
     <script> includeHTML(); </script>
