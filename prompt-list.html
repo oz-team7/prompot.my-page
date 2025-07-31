@@ -52,6 +52,41 @@
             font-family: inherit;
             font-size: inherit;
         }
+        /* 삭제 확인 모달 스타일 */
+        .delete-confirm-modal {
+            visibility: hidden;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1001;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .delete-confirm-modal.show {
+            visibility: visible;
+            opacity: 1;
+        }
+        .delete-confirm-modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            width: 90%;
+            max-width: 420px;
+            text-align: center;
+            transform: scale(0.95);
+            transition: all 0.3s ease-in-out;
+        }
+        .delete-confirm-modal.show .delete-confirm-modal-content {
+            transform: scale(1);
+        }
+        #delete-modal-item-title {
+            font-weight: 600;
+            color: #c9302c; /* A soft red for emphasis */
+        }
     </style>
 </head>
 <body class="bg-orange-50 min-h-screen flex flex-col">
@@ -86,6 +121,25 @@
             <div class="flex justify-end gap-3 mt-2">
                 <button id="edit-modal-save-btn" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors">저장</button>
                 <button id="edit-modal-cancel-btn" class="bg-gray-200 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-300 transition-colors">취소</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 삭제 확인 모달 -->
+    <div id="delete-confirm-modal" class="delete-confirm-modal">
+        <div class="delete-confirm-modal-content">
+            <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-red-100">
+                <svg class="h-6 w-6 text-red-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                </svg>
+            </div>
+            <h3 class="text-lg font-semibold mt-4 text-gray-900">삭제 확인</h3>
+            <p class="mt-2 text-sm text-gray-500">
+                정말로 <span id="delete-modal-item-title"></span> 프롬프트를 삭제하시겠습니까? <br>이 작업은 되돌릴 수 없습니다.
+            </p>
+            <div class="mt-6 flex justify-center gap-4">
+                <button id="delete-modal-confirm-btn" class="w-full rounded-md bg-red-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-red-500">삭제</button>
+                <button id="delete-modal-cancel-btn" class="w-full rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">취소</button>
             </div>
         </div>
     </div>
@@ -141,6 +195,11 @@
     const editModalBodyTextarea = document.getElementById('edit-modal-body');
     const editModalSaveBtn = document.getElementById('edit-modal-save-btn');
     const editModalCancelBtn = document.getElementById('edit-modal-cancel-btn');
+    
+    const deleteConfirmModal = document.getElementById('delete-confirm-modal');
+    const deleteModalItemTitle = document.getElementById('delete-modal-item-title');
+    const deleteModalConfirmBtn = document.getElementById('delete-modal-confirm-btn');
+    const deleteModalCancelBtn = document.getElementById('delete-modal-cancel-btn');
 
     // 이벤트 위임: promptListEl에 이벤트 리스너를 한 번만 추가합니다.
     promptListEl.addEventListener('click', (event) => {
@@ -160,11 +219,9 @@
 
       // 삭제 아이콘 버튼 클릭 시
       if (button.classList.contains('delete-btn')) {
-        if (confirm(`'${item.title}' 프롬프트를 정말 삭제하시겠습니까?`)) {
-          savedList.splice(index, 1); // 배열에서 해당 항목 제거
-          localStorage.setItem('promptList', JSON.stringify(savedList)); // localStorage 업데이트
-          renderPromptList(); // 목록 새로고침
-        }
+        deleteModalItemTitle.textContent = `'${item.title}'`;
+        deleteModalConfirmBtn.dataset.index = index; // 삭제할 인덱스를 버튼에 저장
+        deleteConfirmModal.classList.add('show');
       }
 
       // 수정 아이콘 버튼 클릭 시
@@ -201,6 +258,32 @@
         localStorage.setItem('promptList', JSON.stringify(savedList));
         editModal.classList.remove('show');
         renderPromptList();
+    });
+
+    // 삭제 확인 모달 '취소' 버튼 이벤트
+    deleteModalCancelBtn.addEventListener('click', () => {
+        deleteConfirmModal.classList.remove('show');
+    });
+
+    // 삭제 확인 모달 '삭제' 버튼 이벤트
+    deleteModalConfirmBtn.addEventListener('click', () => {
+        const index = deleteModalConfirmBtn.dataset.index;
+        if (index === undefined) return;
+
+        let savedList = JSON.parse(localStorage.getItem('promptList') || '[]');
+        savedList.splice(index, 1);
+        localStorage.setItem('promptList', JSON.stringify(savedList));
+        
+        deleteConfirmModal.classList.remove('show');
+        renderPromptList();
+    });
+
+    // Escape 키로 모달 닫기
+    window.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+            deleteConfirmModal.classList.remove('show');
+            editModal.classList.remove('show');
+        }
     });
 
     // 페이지가 로드될 때 프롬프트 목록을 처음으로 렌더링합니다.
