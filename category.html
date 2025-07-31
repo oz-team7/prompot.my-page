@@ -132,6 +132,25 @@
     </div>
 </div>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const categoryToShow = urlParams.get('category');
+
+            if (categoryToShow) {
+                const allCategories = document.querySelectorAll('#categoryList > div');
+                allCategories.forEach(card => {
+                    const cardTitle = card.querySelector('h3').textContent.trim();
+                    if (cardTitle === categoryToShow) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            }
+        });
+    </script>
+
     <div data-include="../footer.html"></div>
 
     <script> let selectedColor = "bg-blue-500";
