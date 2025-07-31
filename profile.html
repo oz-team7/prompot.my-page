@@ -13,6 +13,28 @@
         body {
             font-family: 'Noto Sans KR', sans-serif;
         }
+        /* 토스트 메시지 스타일 */
+        .toast {
+            visibility: hidden; /* 기본적으로 숨김 */
+            min-width: 250px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 8px;
+            padding: 16px;
+            position: fixed;
+            z-index: 1000;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%) scale(0.9); /* 시작 시 약간 작게 */
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease; /* 부드러운 등장/사라짐 효과 */
+        }
+        .toast.show {
+            visibility: visible;
+            transform: translate(-50%, -50%) scale(1); /* 최종 크기 */
+            opacity: 1;
+        }
     </style>
 </head>
 <body class="bg-gray-50 min-h-screen flex flex-col">
@@ -68,10 +90,23 @@
         </div>
     </main>
 
+ <div id="toast-message" class="toast"></div>
  <div data-include="footer.html"></div>
    
 
     <script>
+// 토스트 메시지를 표시하는 함수
+function showToast(message) {
+    const toast = document.getElementById('toast-message');
+    toast.textContent = message;
+    toast.classList.add('show');
+
+    // 3초 후에 토스트를 숨깁니다.
+    setTimeout(function(){ 
+        toast.classList.remove('show'); 
+    }, 3000);
+}
+
 document.getElementById('saveBtn').onclick = function() {
     // 입력값 가져오기
     const name = document.querySelector('input[type="text"]').value;
@@ -87,7 +122,7 @@ document.getElementById('saveBtn').onclick = function() {
         emailNotify
     };
     localStorage.setItem('profileData', JSON.stringify(profileData));
-    alert('프로필이 저장되었습니다!');
+    showToast('프로필이 저장되었습니다!');
 };
 
 document.getElementById('cancelBtn').onclick = function() {
@@ -97,6 +132,7 @@ document.getElementById('cancelBtn').onclick = function() {
     if(profileData.email) document.querySelector('input[type="email"]').value = profileData.email;
     document.querySelector('input[type="password"]').value = "";
     document.querySelector('input[type="checkbox"]').checked = !!profileData.emailNotify;
+    showToast('변경 사항이 취소되었습니다.');
 };
 
 // 페이지 로드 시 기존 데이터 불러오기
