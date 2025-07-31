@@ -119,6 +119,16 @@
                 <textarea id="edit-modal-desc" rows="3"></textarea>
             </div>
             <div>
+                <label for="edit-modal-category">카테고리</label>
+                <select id="edit-modal-category">
+                    <option value="콘텐츠 작성">콘텐츠 작성</option>
+                    <option value="마케팅">마케팅</option>
+                    <option value="기술 문서">기술 문서</option>
+                    <option value="디자인">디자인</option>
+                    <option value="기타">기타</option>
+                </select>
+            </div>
+            <div>
                 <label for="edit-modal-body">프롬프트 본문</label>
                 <textarea id="edit-modal-body" rows="8" class="font-mono text-sm"></textarea>
             </div>
@@ -197,6 +207,7 @@
     const editModalTitleInput = document.getElementById('edit-modal-title');
     const editModalDescTextarea = document.getElementById('edit-modal-desc');
     const editModalBodyTextarea = document.getElementById('edit-modal-body');
+    const editModalCategorySelect = document.getElementById('edit-modal-category');
     const editModalSaveBtn = document.getElementById('edit-modal-save-btn');
     const editModalCancelBtn = document.getElementById('edit-modal-cancel-btn');
     
@@ -235,6 +246,7 @@
         editModalTitleInput.value = item.title;
         editModalDescTextarea.value = item.desc;
         editModalBodyTextarea.value = item.body;
+        editModalCategorySelect.value = item.category;
         
         // 모달 보이기
         editModal.classList.add('show');
@@ -256,7 +268,8 @@
             ...savedList[index], // category와 같은 다른 속성 유지
             title: editModalTitleInput.value,
             desc: editModalDescTextarea.value,
-            body: editModalBodyTextarea.value
+            body: editModalBodyTextarea.value,
+            category: editModalCategorySelect.value
         };
 
         localStorage.setItem('promptList', JSON.stringify(savedList));
