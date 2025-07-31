@@ -1,0 +1,167 @@
+<style>
+    /* 
+      내비게이션 바 스타일을 navigation.html 내에 포함시켜 
+      어떤 페이지에서든 동일한 디자인을 유지하도록 합니다.
+    */
+    header {
+      position: sticky;
+      top: 0;
+      background: #fff;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      z-index: 100;
+    }
+    header .container {
+      width: 90%;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    header .nav-container {
+      display: flex;
+      align-items: center;
+      padding: 15px 0;
+      gap: 25px;
+    }
+    header .logo-container {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+    }
+    header .logo-container img {
+      width: 40px;
+      height: auto;
+      margin-right: 10px;
+    }
+    header .logo-text {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #FF7A00;
+    }
+    header .nav-links {
+      margin-left: auto;
+    }
+    header .nav-links ul {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    header .nav-links a {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #4A5568;
+      padding-bottom: 5px;
+      position: relative;
+      transition: color 0.3s ease;
+      text-decoration: none;
+    }
+    header .nav-links a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #FF7A00;
+      transition: width 0.3s ease-in-out;
+    }
+    header .nav-links a:hover {
+      color: #FF7A00;
+    }
+    header .nav-links a:hover::after {
+      width: 100%;
+    }
+    .login-button {
+      background: #FF7A00;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 18px;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .login-button:hover {
+      background: #e66a00;
+    }
+    /* ─── Modal (로그인) ─────────────────────────────── */
+    .modal {
+      display: none; /* Initially hidden */
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      align-items: center;
+      justify-content: center;
+      z-index: 101; /* Ensure modal is on top of the header */
+    }
+    .modal-content {
+      background: #fff;
+      padding: 30px;
+      border-radius: 8px;
+      width: 90%;
+      max-width: 400px;
+      position: relative;
+    }
+    .modal-content .close {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    .modal-content form input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+    .modal-content form button {
+      width: 100%;
+      background: #FF7A00;
+      color: #fff;
+      border: none;
+      padding: 12px;
+      font-size: 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .modal-content form button:hover {
+      background: #e66a00;
+    }
+</style>
+<header>
+    <div class="container nav-container">
+      <a href="/" class="logo-container">
+        <img src="/prompot.my-page/LogoImage_Prompot.png" alt="PROMPOT 로고" />
+        <span class="logo-text">PROMPOT</span>
+      </a>
+      <nav class="nav-links">
+        <ul>
+          <li><a href="/prompot.my-page/dash.html">대시보드</a></li>
+          <li><a href="/prompot.my-page/newpost.html">프롬프트 생성</a></li>
+          <li><a href="/prompot.my-page/prompt-list.html">프롬프트 목록</a></li>
+          <li><a href="/prompot.my-page/category.html">카테고리</a></li>
+          <li><a href="/prompot.my-page/profile.html">내정보</a></li>
+        </ul>
+      </nav>
+      <button id="loginBtn" class="login-button">로그인</button>
+    </div>
+</header>
+
+<!-- 로그인 모달 HTML -->
+<div id="loginModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <form id="loginForm">
+      <h2 style="text-align: center; margin-bottom: 20px; color: #333;">로그인</h2>
+      <input type="email" placeholder="이메일" required />
+      <input type="password" placeholder="비밀번호" required />
+      <button type="submit">로그인</button>
+    </form>
+  </div>
+</div>

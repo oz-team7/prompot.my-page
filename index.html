@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PROMPOT</title>
+  <link rel="stylesheet" href="ai-intro.css" />
+
+  <style>
+    /* ─── Reset & Base ───────────────────────────────── */
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #fff;
+      color: #333;
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+    ul {
+      list-style: none;
+    }
+    main {
+      flex-grow: 1;
+    }
+
+    /* ─── Container ─────────────────────────────────── */
+    .container {
+      width: 90%;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    /* ─── Header / Nav ───────────────────────────────── */
+    header {
+      position: sticky;
+      top: 0;
+      background: #fff;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      z-index: 100;
+    }
+    .nav-container {
+      display: flex;
+      align-items: center;
+      padding: 15px 0;
+      gap: 25px; /* Add gap for children */
+    }
+    .logo-container {
+      display: flex;
+      align-items: center;
+    }
+    .logo-container img {
+      width: 40px;
+      height: auto;
+      margin-right: 10px;
+    }
+    .logo-text {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #FF7A00;
+    }
+    .nav-links {
+      margin-left: auto; /* Push to the right */
+    }
+    .nav-links ul {
+      display: flex;
+      align-items: center;
+      gap: 30px; /* 링크 간 간격 조정 */
+    }
+    .nav-links a {
+      font-size: 1rem;
+      font-weight: 600; /* 글씨를 조금 더 굵게 */
+      color: #4A5568; /* 차분한 회색톤 */
+      padding-bottom: 5px; /* 밑줄을 위한 공간 확보 */
+      position: relative;
+      transition: color 0.3s ease;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #FF7A00;
+      transition: width 0.3s ease-in-out;
+    }
+    .nav-links a:hover {
+      color: #FF7A00; /* 호버 시 메인 색상으로 변경 */
+    }
+    .nav-links a:hover::after {
+      width: 100%; /* 호버 시 밑줄이 채워짐 */
+    }
+    .login-button {
+      background: #FF7A00;
+      color: #fff;
+      border: none;
+      border-radius: 6px; /* Match nav links */
+      padding: 8px 18px; /* Adjust padding */
+      font-size: 1rem;
+      font-weight: 500; /* Match nav links */
+      cursor: pointer;
+      transition: background 0.3s ease; /* Smoother transition */
+    }
+    .login-button:hover {
+      background: #e66a00;
+    }
+
+    /* ─── Hero ───────────────────────────────────────── */
+    .hero {
+      background: #fff;
+    }
+    .hero .container {
+      text-align: center;
+      padding: 100px 0;
+    }
+    .hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+    .hero p {
+      font-size: 1.2rem;
+      margin-bottom: 30px;
+      color: #555;
+    }
+    .search-container {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .search-container input {
+      flex: 1;
+      padding: 15px 20px;
+      font-size: 1rem;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+    .search-container button {
+      background: #FF7A00;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 15px 25px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .search-container button:hover {
+      background: #e66a00;
+    }
+
+    /* ─── Prompt Examples ────────────────────────────── */
+    .prompt-examples {
+      background: #f9f9f9;
+    }
+    .prompt-examples .container {
+      padding: 60px 0;
+    }
+    .prompt-examples h2 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 40px;
+    }
+    .card-container {
+      display: grid;
+      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+    .card {
+      background: #fff;
+      border: 1px solid #eee;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+    .card h3 {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+      color: #FF7A00;
+    }
+    .card p {
+      color: #555;
+    }
+
+    /* ─── Features ───────────────────────────────────── */
+    .features {
+      background: #fff;
+    }
+    .features .container {
+      padding: 60px 0;
+    }
+    .features h2 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 40px;
+    }
+    .feature-grid {
+      display: grid;
+      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+    .feature {
+      text-align: center;
+    }
+    .feature h3 {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+    }
+    .feature p {
+      color: #555;
+    }
+
+    /* ─── FAQ ────────────────────────────────────────── */
+    .faq {
+      background: #f9f9f9;
+    }
+    .faq .container {
+      padding: 60px 0;
+    }
+    .faq h2 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 40px;
+    }
+    .faq details {
+      margin-bottom: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      background: #fff;
+      overflow: hidden;
+    }
+    .faq summary {
+      padding: 15px 20px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      list-style: none;
+    }
+    .faq summary::-webkit-details-marker {
+      display: none;
+    }
+    .faq details[open] summary {
+      background: #FF7A00;
+      color: #fff;
+    }
+    .faq p {
+      padding: 15px 20px;
+      border-top: 1px solid #eee;
+      color: #555;
+    }
+
+    /* ─── Footer ────────────────────────────────────── */
+    footer {
+      background: #FF7A00;
+      color: #fff;
+    }
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 0;
+    }
+    .footer-content a {
+      color: #fff;
+      text-decoration: underline;
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 12px; /* 링크 간 간격 */
+      flex-wrap: wrap; /* 창 줄일 때 줄바꿈 허용 */
+    }
+
+    .footer-links a {
+      color: #fff;
+      font-size: 0.9rem;
+      text-decoration: underline;
+    }
+
+
+
+    /* ─── Modal (로그인) ─────────────────────────────── */
+    .modal {
+      display: none; /* Initially hidden */
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-content {
+      background: #fff;
+      padding: 30px;
+      border-radius: 8px;
+      width: 90%;
+      max-width: 400px;
+      position: relative;
+    }
+    .modal-content .close {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    .modal-content form input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+    .modal-content form button {
+      width: 100%;
+      background: #FF7A00;
+      color: #fff;
+      border: none;
+      padding: 12px;
+      font-size: 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    .modal-content form button:hover {
+      background: #e66a00;
+    }
+
+    /* Custom Styles */
+    .flex.space-x-2.pb-2 button {
+        border-color: transparent;
+    }
+
+    .nav-links li {
+        list-style-type: none;
+    }
+  </style>
+  <script src="include.js"></script>
+
+  <link rel="icon" href="/prompot.my-page/favicon.png" type="image/png">
+
+</head>
+<body>
+  <div data-include="navigation.html"></div>
+  
+  <main class="container" style="padding: 50px 0;">
+    <section class="features">
+        <div class="container">
+            <h2>서비스 바로가기</h2>
+            <div class="card-container" style="gap: 30px;">
+                <a href="prompot.my-page/dash.html" class="card" style="text-decoration: none; color: inherit; display: block;">
+                    <h3>대시보드</h3>
+                    <p>나의 프롬프트 활동을 한눈에 확인하세요.</p>
+                </a>
+                <a href="prompot.my-page/newpost.html" class="card" style="text-decoration: none; color: inherit; display: block;">
+                    <h3>프롬프트 생성</h3>
+                    <p>새로운 프롬프트를 만들고 관리합니다.</p>
+                </a>
+                <a href="prompot.my-page/prompt-list.html" class="card" style="text-decoration: none; color: inherit; display: block;">
+                    <h3>프롬프트 목록</h3>
+                    <p>내가 생성한 모든 프롬프트를 확인합니다.</p>
+                </a>
+                <a href="prompot.my-page/catalog.html" class="card" style="text-decoration: none; color: inherit; display: block;">
+                    <h3>프롬프트 카탈로그</h3>
+                    <p>다양한 종류의 프롬프트를 탐색해보세요.</p>
+                </a>
+                <a href="prompot.my-page/category.html" class="card" style="text-decoration: none; color: inherit; display: block;">
+                    <h3>카테고리 관리</h3>
+                    <p>프롬프트를 카테고리별로 정리하고 관리합니다.</p>
+                </a>
+                <a href="prompot.my-page/statistics.html" class="card" style="text-decoration: none; color: inherit; display: block;">
+                    <h3>통계</h3>
+                    <p>프롬프트 사용 통계를 확인하고 인사이트를 얻으세요.</p>
+                </a>
+                <a href="prompot.my-page/profile.html" class="card" style="text-decoration: none; color: inherit; display: block;">
+                    <h3>내 정보</h3>
+                    <p>계정 정보를 확인하고 수정합니다.</p>
+                </a>
+            </div>
+        </div>
+    </section>
+  </main>
+  <div data-include="footer.html"></div>
+  <script> includeHTML(); </script>
+</body>
+
+
+</html>

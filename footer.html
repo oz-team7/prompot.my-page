@@ -1,0 +1,44 @@
+<style>
+    /* 
+      푸터 스타일을 footer.html 내에 포함시켜 
+      어떤 페이지에서든 동일한 디자인을 유지하도록 합니다.
+    */
+    footer {
+      background: #FF7A00;
+      color: #fff;
+    }
+    footer .container {
+      width: 90%;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    footer .footer-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 0;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    footer .footer-links {
+      display: flex;
+      gap: 12px; /* 링크 간 간격 */
+      flex-wrap: wrap; /* 창 줄일 때 줄바꿈 허용 */
+    }
+    footer .footer-links a {
+      color: #fff;
+      font-size: 0.9rem;
+      text-decoration: underline;
+    }
+</style>
+<footer>
+    <div class="container footer-content">
+      <p>&copy; 2025 PROMPOT. All rights reserved.</p>
+      <div class="footer-links">
+        <a href="/terms.html">이용 약관</a>
+        <a href="/privacy.html">개인정보 처리방침</a>
+        <a href="mailto:support@prompot.ai">문의하기</a>
+        <a href="/admin.html">ADMIN</a>
+      </div>
+    </div>
+</footer>
