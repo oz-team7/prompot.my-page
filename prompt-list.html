@@ -98,7 +98,7 @@
 
     <main class="flex-grow max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
         <h2 class="text-2xl font-bold text-gray-800 mb-8">생성된 프롬프트 목록</h2>
-        <div id="promptList" class="space-y-6">
+        <div id="promptList" class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <!-- 프롬프트 카드가 여기에 표시됩니다 -->
         </div>
     </main>
@@ -159,7 +159,7 @@
       if (savedList.length > 0) {
         savedList.forEach((data, index) => {
           const card = document.createElement('div');
-          card.className = "bg-white rounded-lg shadow p-6";
+          card.className = "bg-white rounded-lg shadow p-6 flex flex-col";
           // 각 버튼에 'data-index' 속성을 추가하여 어떤 항목인지 식별할 수 있도록 합니다.
           card.innerHTML = `
             <div class="flex justify-between items-start">
@@ -182,7 +182,7 @@
                     </button>
                 </div>
             </div>
-            <div class="mt-4 bg-orange-50 rounded p-4 text-gray-800 whitespace-pre-line">${data.body}</div>
+            <div class="mt-4 bg-orange-50 rounded p-4 text-gray-800 whitespace-pre-wrap font-mono text-sm max-h-48 overflow-y-auto">${data.body}</div>
           `;
           promptListEl.appendChild(card);
         });
