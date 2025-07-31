@@ -3,43 +3,43 @@
       내비게이션 바 스타일을 navigation.html 내에 포함시켜 
       어떤 페이지에서든 동일한 디자인을 유지하도록 합니다.
     */
-    header {
+    header.prompot-header {
       position: sticky;
       top: 0;
       background: #fff;
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
       z-index: 100;
     }
-    header .container {
+    header.prompot-header .container {
       width: 90%;
       max-width: 1000px;
       margin: 0 auto;
     }
-    header .nav-container {
+    header.prompot-header .nav-container {
       display: flex;
       align-items: center;
       padding: 15px 0;
       gap: 25px;
     }
-    header .logo-container {
+    header.prompot-header .logo-container {
       display: flex;
       align-items: center;
       text-decoration: none;
     }
-    header .logo-container img {
+    header.prompot-header .logo-container img {
       width: 40px;
       height: auto;
       margin-right: 10px;
     }
-    header .logo-text {
+    header.prompot-header .logo-text {
       font-size: 1.5rem;
       font-weight: bold;
       color: #FF7A00;
     }
-    header .nav-links {
+    header.prompot-header .nav-links {
       margin-left: auto;
     }
-    header .nav-links ul {
+    header.prompot-header .nav-links ul {
       display: flex;
       align-items: center;
       gap: 30px;
@@ -47,16 +47,16 @@
       padding: 0;
       margin: 0;
     }
-    header .nav-links a {
+    header.prompot-header .nav-links > ul > li > a {
       font-size: 1rem;
       font-weight: 600;
       color: #4A5568;
       padding-bottom: 5px;
       position: relative;
       transition: color 0.3s ease;
-      text-decoration: none;
+           text-decoration: none;
     }
-    header .nav-links a::after {
+    header.prompot-header .nav-links a::after {
       content: '';
       position: absolute;
       width: 0;
@@ -67,13 +67,13 @@
       background-color: #FF7A00;
       transition: width 0.3s ease-in-out;
     }
-    header .nav-links a:hover {
+    header.prompot-header .nav-links a:hover {
       color: #FF7A00;
     }
-    header .nav-links a:hover::after {
+    header.prompot-header .nav-links a:hover::after {
       width: 100%;
     }
-    .login-button {
+    header.prompot-header .login-button {
       background: #FF7A00;
       color: #fff;
       border: none;
@@ -84,7 +84,7 @@
       cursor: pointer;
       transition: background 0.3s ease;
     }
-    .login-button:hover {
+    header.prompot-header .login-button:hover {
       background: #e66a00;
     }
     /* ─── Modal (로그인) ─────────────────────────────── */
@@ -134,7 +134,7 @@
       background: #e66a00;
     }
 </style>
-<header>
+<header class="prompot-header">
     <div class="container nav-container">
       <a href="index.html" class="logo-container">
         <img src="LogoImage_Prompot.png" alt="PROMPOT 로고" />

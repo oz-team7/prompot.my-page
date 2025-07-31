@@ -42,82 +42,6 @@
       margin: 0 auto;
     }
 
-    /* ─── Header / Nav ───────────────────────────────── */
-    header {
-      position: sticky;
-      top: 0;
-      background: #fff;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      z-index: 100;
-    }
-    .nav-container {
-      display: flex;
-      align-items: center;
-      padding: 15px 0;
-      gap: 25px; /* Add gap for children */
-    }
-    .logo-container {
-      display: flex;
-      align-items: center;
-    }
-    .logo-container img {
-      width: 40px;
-      height: auto;
-      margin-right: 10px;
-    }
-    .logo-text {
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: #FF7A00;
-    }
-    .nav-links {
-      margin-left: auto; /* Push to the right */
-    }
-    .nav-links ul {
-      display: flex;
-      align-items: center;
-      gap: 30px; /* 링크 간 간격 조정 */
-    }
-    .nav-links a {
-      font-size: 1rem;
-      font-weight: 600; /* 글씨를 조금 더 굵게 */
-      color: #4A5568; /* 차분한 회색톤 */
-      padding-bottom: 5px; /* 밑줄을 위한 공간 확보 */
-      position: relative;
-      transition: color 0.3s ease;
-    }
-    .nav-links a::after {
-      content: '';
-      position: absolute;
-      width: 0;
-      height: 2px;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      background-color: #FF7A00;
-      transition: width 0.3s ease-in-out;
-    }
-    .nav-links a:hover {
-      color: #FF7A00; /* 호버 시 메인 색상으로 변경 */
-    }
-    .nav-links a:hover::after {
-      width: 100%; /* 호버 시 밑줄이 채워짐 */
-    }
-    .login-button {
-      background: #FF7A00;
-      color: #fff;
-      border: none;
-      border-radius: 6px; /* Match nav links */
-      padding: 8px 18px; /* Adjust padding */
-      font-size: 1rem;
-      font-weight: 500; /* Match nav links */
-      cursor: pointer;
-      transition: background 0.3s ease; /* Smoother transition */
-    }
-    .login-button:hover {
-      background: #e66a00;
-    }
-
     /* ─── Hero ───────────────────────────────────────── */
     .hero {
       background: #fff;
@@ -297,54 +221,6 @@
       color: #fff;
       font-size: 0.9rem;
       text-decoration: underline;
-    }
-
-
-
-    /* ─── Modal (로그인) ─────────────────────────────── */
-    .modal {
-      display: none; /* Initially hidden */
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.5);
-      align-items: center;
-      justify-content: center;
-    }
-    .modal-content {
-      background: #fff;
-      padding: 30px;
-      border-radius: 8px;
-      width: 90%;
-      max-width: 400px;
-      position: relative;
-    }
-    .modal-content .close {
-      position: absolute;
-      top: 15px;
-      right: 15px;
-      font-size: 1.5rem;
-      cursor: pointer;
-    }
-    .modal-content form input {
-      width: 100%;
-      padding: 12px;
-      margin-bottom: 15px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-    }
-    .modal-content form button {
-      width: 100%;
-      background: #FF7A00;
-      color: #fff;
-      border: none;
-      padding: 12px;
-      font-size: 1rem;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-    .modal-content form button:hover {
-      background: #e66a00;
     }
 
     /* Custom Styles */
