@@ -1,321 +1,346 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PROMPOT</title>
-    <link rel="icon" href="LogoImage_Prompot.png" type="image/png">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="include.js"></script>
-    <link rel="stylesheet" href="https://jiyoonlee-0908.github.io/oz-lecture/prompot/style.css">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap');
-        body {
-            font-family: 'Noto Sans KR', sans-serif;
-        }
-        /* 수정 모달 스타일 */
-        .edit-modal {
-            visibility: hidden;
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.4);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        .edit-modal.show {
-            visibility: visible;
-            opacity: 1;
-        }
-        .edit-modal-content {
-            background: white;
-            padding: 2rem;
-            border-radius: 0.5rem;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            width: 90%;
-            max-width: 600px;
-            text-align: left;
-        }
-        .edit-modal-content label {
-            display: block;
-            font-size: 0.875rem; /* text-sm */
-            font-weight: 500; /* font-medium */
-            color: #374151; /* text-gray-700 */
-            margin-bottom: 0.5rem;
-        }
-        .edit-modal-content input,
-        .edit-modal-content textarea {
-            width: 100%;
-            border: 1px solid #d1d5db; /* border-gray-300 */
-            border-radius: 0.375rem; /* rounded-md */
-            padding: 0.5rem 0.75rem;
-            margin-bottom: 1rem;
-            font-family: inherit;
-            font-size: inherit;
-        }
-        /* 삭제 확인 모달 스타일 */
-        .delete-confirm-modal {
-            visibility: hidden;
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1001;
-            opacity: 0;
-            transition: opacity 0.3s ease-in-out;
-        }
-        .delete-confirm-modal.show {
-            visibility: visible;
-            opacity: 1;
-        }
-        .delete-confirm-modal-content {
-            background: white;
-            padding: 2rem;
-            border-radius: 0.75rem;
-            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-            width: 90%;
-            max-width: 420px;
-            text-align: center;
-            transform: scale(0.95);
-            transition: all 0.3s ease-in-out;
-        }
-        .delete-confirm-modal.show .delete-confirm-modal-content {
-            transform: scale(1);
-        }
-        #delete-modal-item-title {
-            font-weight: 600;
-            color: #c9302c; /* A soft red for emphasis */
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PROMPOT</title>
+  <link rel="icon" href="LogoImage_Prompot.png" type="image/png" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="include.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap');
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+    }
+    .edit-modal, .delete-confirm-modal {
+      visibility: hidden;
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.4);
+      z-index: 1000;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .edit-modal.show, .delete-confirm-modal.show {
+      visibility: visible;
+      opacity: 1;
+    }
+    .edit-modal-content, .delete-confirm-modal-content {
+      background: white;
+      padding: 2rem;
+      border-radius: 0.5rem;
+      width: 90%;
+      max-width: 600px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    select, input, textarea {
+      width: 100%;
+      padding: 0.5rem;
+      margin-bottom: 1rem;
+      border: 1px solid #d1d5db;
+      border-radius: 0.375rem;
+      font-family: inherit;
+    }
+    .category-box {
+        display: block;
+        width: 100%;
+        padding: 0.75rem 1rem;
+        margin-bottom: 0.5rem;
+        border: 1px solid #e5e7eb; /* gray-200 */
+        border-radius: 0.5rem; /* rounded-lg */
+        background-color: #ffffff; /* white */
+        text-align: center;
+        font-weight: 500;
+        color: #374151; /* gray-700 */
+        transition: all 0.2s ease-in-out;
+        cursor: pointer;
+    }
+    .category-box:hover {
+        border-color: #fb923c; /* orange-400 */
+        background-color: #fff7ed; /* orange-50 */
+    }
+    .category-box.active {
+        border-color: #ea580c; /* orange-600 */
+        background-color: #ea580c; /* orange-600 */
+        color: #ffffff; /* white */
+    }
+    #searchInput::placeholder {
+        text-align: center;
+    }
+  </style>
 </head>
+
 <body class="bg-orange-50 min-h-screen flex flex-col">
-    <div data-include="navigation.html"></div>
+  <div data-include="navigation.html"></div>
 
-    <main class="flex-grow max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
-        <h2 class="text-2xl font-bold text-gray-800 mb-8">생성된 프롬프트 목록</h2>
-        <div id="promptList" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <!-- 프롬프트 카드가 여기에 표시됩니다 -->
-        </div>
-    </main>
-
-    <div data-include="footer.html"></div>
-
-    <!-- 프롬프트 수정 모달 -->
-    <div id="edit-modal" class="edit-modal">
-        <div class="edit-modal-content">
-            <h3 class="text-xl font-bold mb-6 text-gray-800">프롬프트 수정</h3>
-            <input type="hidden" id="edit-modal-index">
-            <div>
-                <label for="edit-modal-title">프롬프트 제목</label>
-                <input type="text" id="edit-modal-title">
-            </div>
-            <div>
-                <label for="edit-modal-desc">프롬프트 설명</label>
-                <textarea id="edit-modal-desc" rows="3"></textarea>
-            </div>
-            <div>
-                <label for="edit-modal-category">카테고리</label>
-                <select id="edit-modal-category">
-                    <option value="콘텐츠 작성">콘텐츠 작성</option>
-                    <option value="마케팅">마케팅</option>
-                    <option value="기술 문서">기술 문서</option>
-                    <option value="디자인">디자인</option>
-                    <option value="기타">기타</option>
-                </select>
-            </div>
-            <div>
-                <label for="edit-modal-body">프롬프트 본문</label>
-                <textarea id="edit-modal-body" rows="8" class="font-mono text-sm"></textarea>
-            </div>
-            <div class="flex justify-end gap-3 mt-2">
-                <button id="edit-modal-save-btn" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors">저장</button>
-                <button id="edit-modal-cancel-btn" class="bg-gray-200 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-300 transition-colors">취소</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- 삭제 확인 모달 -->
-    <div id="delete-confirm-modal" class="delete-confirm-modal">
-        <div class="delete-confirm-modal-content">
-            <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-red-100">
-                <svg class="h-6 w-6 text-red-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
-                </svg>
-            </div>
-            <h3 class="text-lg font-semibold mt-4 text-gray-900">삭제 확인</h3>
-            <p class="mt-2 text-sm text-gray-500">
-                정말로 <span id="delete-modal-item-title"></span> 프롬프트를 삭제하시겠습니까? <br>이 작업은 되돌릴 수 없습니다.
-            </p>
-            <div class="mt-6 flex justify-center gap-4">
-                <button id="delete-modal-confirm-btn" class="w-full rounded-md bg-red-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-red-500">삭제</button>
-                <button id="delete-modal-cancel-btn" class="w-full rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">취소</button>
-            </div>
-        </div>
-    </div>
-
-    <script>
-    const promptListEl = document.getElementById('promptList');
-
-    // 프롬프트 목록을 화면에 렌더링하는 함수
-    const renderPromptList = () => {
-      const savedList = JSON.parse(localStorage.getItem('promptList') || '[]');
-      promptListEl.innerHTML = ''; // 목록을 새로 그리기 전에 기존 내용을 비웁니다.
-
-      if (savedList.length > 0) {
-        savedList.forEach((data, index) => {
-          const card = document.createElement('div');
-          card.className = "bg-white rounded-lg shadow p-6 flex flex-col";
-          // 각 버튼에 'data-index' 속성을 추가하여 어떤 항목인지 식별할 수 있도록 합니다.
-          card.innerHTML = `
-            <div class="flex justify-between items-start">
-                <div>
-                    <h3 class="text-xl font-bold text-orange-600 mb-2">${data.title}</h3>
-                    <p class="text-gray-700 mb-2">${data.desc}</p>
-                    <p class="text-sm text-gray-500 mb-2">카테고리: ${data.category}</p>
-                </div>
-                <div class="flex space-x-1 flex-shrink-0 ml-4">
-                    <button class="edit-btn p-2 text-gray-500 hover:bg-gray-100 rounded-full" data-index="${index}">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
-                            <path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd" />
-                        </svg>
-                    </button>
-                    <button class="delete-btn p-2 text-gray-500 hover:bg-gray-100 rounded-full" data-index="${index}">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
-                        </svg>
-                    </button>
-                </div>
-            </div>
-            <div class="mt-4 bg-orange-50 rounded p-4 text-gray-800 whitespace-pre-wrap font-mono text-sm max-h-48 overflow-y-auto">${data.body}</div>
-          `;
-          promptListEl.appendChild(card);
-        });
-      } else {
-        promptListEl.innerHTML = '<p class="text-gray-500">저장된 프롬프트가 없습니다.</p>';
-      }
-    };
-
-    // 모달 요소 가져오기
-    const editModal = document.getElementById('edit-modal');
-    const editModalIndexInput = document.getElementById('edit-modal-index');
-    const editModalTitleInput = document.getElementById('edit-modal-title');
-    const editModalDescTextarea = document.getElementById('edit-modal-desc');
-    const editModalBodyTextarea = document.getElementById('edit-modal-body');
-    const editModalCategorySelect = document.getElementById('edit-modal-category');
-    const editModalSaveBtn = document.getElementById('edit-modal-save-btn');
-    const editModalCancelBtn = document.getElementById('edit-modal-cancel-btn');
+  <!-- Layout: Sidebar + Main -->
+  <div class="flex flex-grow max-w-7xl mx-auto w-full px-4">
     
-    const deleteConfirmModal = document.getElementById('delete-confirm-modal');
-    const deleteModalItemTitle = document.getElementById('delete-modal-item-title');
-    const deleteModalConfirmBtn = document.getElementById('delete-modal-confirm-btn');
-    const deleteModalCancelBtn = document.getElementById('delete-modal-cancel-btn');
+    <!-- Sidebar -->
+    <aside class="w-48 mr-6 hidden md:block pt-12">
+      <h3 class="text-xl font-bold text-orange-600 mb-4 pb-2 border-b-2 border-orange-200 text-center">카테고리</h3>
+      <!-- Search Input -->
+      <div class="mb-4">
+        <input type="text" id="searchInput" placeholder="프롬프트 검색" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-orange-500 text-sm">
+      </div>
+      <div id="categoryList">
+        <button class="category-box active" data-category="전체">전체</button>
+        <button class="category-box" data-category="콘텐츠 작성">콘텐츠 작성</button>
+        <button class="category-box" data-category="마케팅">마케팅</button>
+        <button class="category-box" data-category="기술 문서">기술 문서</button>
+        <button class="category-box" data-category="디자인">디자인</button>
+        <button class="category-box" data-category="기타">기타</button>
+      </div>
+    </aside>
 
-    // 이벤트 위임: promptListEl에 이벤트 리스너를 한 번만 추가합니다.
-    promptListEl.addEventListener('click', (event) => {
-      // 클릭된 요소에서 가장 가까운 button을 찾습니다. 아이콘을 클릭해도 버튼을 찾을 수 있습니다.
-      const button = event.target.closest('button');
+    <!-- Main -->
+    <main class="flex-grow py-12 w-full">
+      <h2 class="text-2xl font-bold text-gray-800 mb-8">생성된 프롬프트 목록</h2>
+      <div id="promptList" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+      <div id="pagination" class="flex justify-center mt-8 space-x-2"></div>
+    </main>
+  </div>
 
-      // 버튼이 아니면 아무것도 하지 않습니다.
-      if (!button) return;
+  <div data-include="footer.html"></div>
 
-      const index = button.dataset.index;
-      if (index === undefined) return; // data-index가 없는 버튼은 무시합니다.
+  <!-- Edit Modal -->
+  <div id="edit-modal" class="edit-modal">
+    <div class="edit-modal-content">
+      <h3 class="text-xl font-bold mb-6 text-gray-800">프롬프트 수정</h3>
+      <input type="hidden" id="edit-modal-index">
+      <label for="edit-modal-title">프롬프트 제목</label>
+      <input type="text" id="edit-modal-title" />
+      <label for="edit-modal-desc">프롬프트 설명</label>
+      <textarea id="edit-modal-desc" rows="3"></textarea>
+      <label for="edit-modal-category">카테고리</label>
+      <select id="edit-modal-category">
+        <option value="콘텐츠 작성">콘텐츠 작성</option>
+        <option value="마케팅">마케팅</option>
+        <option value="기술 문서">기술 문서</option>
+        <option value="디자인">디자인</option>
+        <option value="기타">기타</option>
+      </select>
+      <label for="edit-modal-body">프롬프트 본문</label>
+      <textarea id="edit-modal-body" rows="8" class="font-mono text-sm"></textarea>
+      <div class="flex justify-end gap-3 mt-2">
+        <button id="edit-modal-save-btn" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">저장</button>
+        <button id="edit-modal-cancel-btn" class="bg-gray-300 px-4 py-2 rounded-md">취소</button>
+      </div>
+    </div>
+  </div>
 
-      let savedList = JSON.parse(localStorage.getItem('promptList') || '[]');
-      const item = savedList[index];
+  <!-- Delete Modal -->
+  <div id="delete-confirm-modal" class="delete-confirm-modal">
+    <div class="delete-confirm-modal-content text-center">
+      <h3 class="text-lg font-semibold text-gray-800 mb-4">정말 삭제하시겠습니까?</h3>
+      <p class="text-gray-600 mb-4">삭제된 프롬프트는 복구할 수 없습니다.</p>
+      <p class="text-red-500 font-semibold" id="delete-modal-item-title"></p>
+      <div class="flex justify-center gap-4 mt-4">
+        <button id="delete-modal-confirm-btn" class="bg-red-600 text-white px-4 py-2 rounded-md">삭제</button>
+        <button id="delete-modal-cancel-btn" class="bg-gray-300 px-4 py-2 rounded-md">취소</button>
+      </div>
+    </div>
+  </div>
 
-      if (!item) return; // 혹시 모를 오류 방지
+  <!-- JavaScript 로직 -->
+  <script>
+    document.addEventListener('htmlIncluded', () => { // includeHTML 완료 후 실행
+        // DOM Elements
+        const promptListEl = document.getElementById('promptList');
+        const categoryListEl = document.getElementById('categoryList');
+        const searchInput = document.getElementById('searchInput');
+        const paginationEl = document.getElementById('pagination');
 
-      // 삭제 아이콘 버튼 클릭 시
-      if (button.classList.contains('delete-btn')) {
-        deleteModalItemTitle.textContent = `'${item.title}'`;
-        deleteModalConfirmBtn.dataset.index = index; // 삭제할 인덱스를 버튼에 저장
-        deleteConfirmModal.classList.add('show');
-      }
+        // Modals
+        const editModal = document.getElementById('edit-modal');
+        const editModalIndexInput = document.getElementById('edit-modal-index');
+        const editModalTitleInput = document.getElementById('edit-modal-title');
+        const editModalDescInput = document.getElementById('edit-modal-desc');
+        const editModalCategoryInput = document.getElementById('edit-modal-category');
+        const editModalBodyInput = document.getElementById('edit-modal-body');
+        const editModalSaveBtn = document.getElementById('edit-modal-save-btn');
+        const editModalCancelBtn = document.getElementById('edit-modal-cancel-btn');
 
-      // 수정 아이콘 버튼 클릭 시
-      if (button.classList.contains('edit-btn')) {
-        // 모달에 현재 데이터 채우기
-        editModalIndexInput.value = index;
-        editModalTitleInput.value = item.title;
-        editModalDescTextarea.value = item.desc;
-        editModalBodyTextarea.value = item.body;
-        editModalCategorySelect.value = item.category;
-        
-        // 모달 보이기
-        editModal.classList.add('show');
-      }
-    });
+        const deleteConfirmModal = document.getElementById('delete-confirm-modal');
+        const deleteModalItemTitle = document.getElementById('delete-modal-item-title');
+        const deleteModalConfirmBtn = document.getElementById('delete-modal-confirm-btn');
+        const deleteModalCancelBtn = document.getElementById('delete-modal-cancel-btn');
+        let deleteIndex = null; // To store the index of the item to be deleted
 
-    // 모달 '취소' 버튼 이벤트
-    editModalCancelBtn.addEventListener('click', () => {
-        editModal.classList.remove('show');
-    });
+        // State
+        let allPrompts = [];
+        let currentCategory = '전체';
+        let searchTerm = '';
+        let currentPage = 1;
+        const itemsPerPage = 6;
 
-    // 모달 '저장' 버튼 이벤트
-    editModalSaveBtn.addEventListener('click', () => {
-        const index = editModalIndexInput.value;
-        if (index === '') return;
+        // --- Main Rendering Function ---
+        const render = () => {
+            // 1. Filter by category
+            let filteredPrompts = allPrompts;
+            if (currentCategory !== '전체') {
+                filteredPrompts = allPrompts.filter(p => p.category === currentCategory);
+            }
 
-        let savedList = JSON.parse(localStorage.getItem('promptList') || '[]');
-        savedList[index] = {
-            ...savedList[index], // category와 같은 다른 속성 유지
-            title: editModalTitleInput.value,
-            desc: editModalDescTextarea.value,
-            body: editModalBodyTextarea.value,
-            category: editModalCategorySelect.value
+            // 2. Filter by search term
+            if (searchTerm) {
+                const lowerCaseSearchTerm = searchTerm.toLowerCase();
+                filteredPrompts = filteredPrompts.filter(p =>
+                    (p.title && p.title.toLowerCase().includes(lowerCaseSearchTerm)) ||
+                    (p.desc && p.desc.toLowerCase().includes(lowerCaseSearchTerm))
+                );
+            }
+
+            // 3. Paginate
+            const totalPages = Math.ceil(filteredPrompts.length / itemsPerPage);
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const paginatedPrompts = filteredPrompts.slice(startIndex, endIndex);
+
+            // 4. Render prompts
+            promptListEl.innerHTML = '';
+            if (paginatedPrompts.length > 0) {
+                paginatedPrompts.forEach(promptData => {
+                    const originalIndex = allPrompts.findIndex(p => p === promptData);
+                    const card = createPromptCard(promptData, originalIndex);
+                    promptListEl.appendChild(card);
+                });
+            } else {
+                promptListEl.innerHTML = '<p class="text-gray-500 col-span-full text-center">표시할 프롬프트가 없습니다.</p>';
+            }
+
+            // 5. Render pagination
+            renderPagination(totalPages);
         };
 
-        localStorage.setItem('promptList', JSON.stringify(savedList));
-        editModal.classList.remove('show');
-        renderPromptList();
-    });
+        // --- Helper Functions ---
+        const createPromptCard = (data, index) => {
+            const card = document.createElement('div');
+            card.className = "bg-white rounded-lg shadow p-6 flex flex-col";
+            card.innerHTML = `
+                <div class="flex-grow">
+                    <div class="flex justify-between items-start">
+                        <h3 class="text-xl font-bold text-orange-600 mb-2">${data.title || '제목 없음'}</h3>
+                        <p class="text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded-full">${data.category}</p>
+                    </div>
+                    <p class="text-gray-700 mb-4 h-12 overflow-hidden">${data.desc || '설명 없음'}</p>
+                </div>
+                <div class="flex justify-end gap-2 mt-4">
+                    <button data-index="${index}" class="edit-btn text-sm text-blue-600 hover:bg-blue-50 px-3 py-1 rounded">수정</button>
+                    <button data-index="${index}" class="delete-btn text-sm text-red-600 hover:bg-red-50 px-3 py-1 rounded">삭제</button>
+                </div>
+            `;
+            return card;
+        };
 
-    // 삭제 확인 모달 '취소' 버튼 이벤트
-    deleteModalCancelBtn.addEventListener('click', () => {
-        deleteConfirmModal.classList.remove('show');
-    });
+        const renderPagination = (totalPages) => {
+            paginationEl.innerHTML = '';
+            if (totalPages <= 1) return;
 
-    // 삭제 확인 모달 '삭제' 버튼 이벤트
-    deleteModalConfirmBtn.addEventListener('click', () => {
-        const index = deleteModalConfirmBtn.dataset.index;
-        if (index === undefined) return;
+            for (let i = 1; i <= totalPages; i++) {
+                const pageBtn = document.createElement('button');
+                pageBtn.textContent = i;
+                pageBtn.className = `px-3 py-1 rounded-md text-sm ${currentPage === i ? 'bg-orange-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-100'}`;
+                pageBtn.onclick = () => {
+                    currentPage = i;
+                    render();
+                };
+                paginationEl.appendChild(pageBtn);
+            }
+        };
 
-        let savedList = JSON.parse(localStorage.getItem('promptList') || '[]');
-        savedList.splice(index, 1);
-        localStorage.setItem('promptList', JSON.stringify(savedList));
-        
-        deleteConfirmModal.classList.remove('show');
-        renderPromptList();
-    });
+        const loadAndRender = () => {
+            allPrompts = JSON.parse(localStorage.getItem('promptList') || '[]');
+            allPrompts.reverse(); // Show newest first
+            render();
+        };
 
-    // Escape 키로 모달 닫기
-    window.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape') {
-            deleteConfirmModal.classList.remove('show');
+        const savePrompts = () => {
+            // 저장 시에는 다시 원래 순서(오래된 것이 위)로 되돌려서 저장합니다.
+            localStorage.setItem('promptList', JSON.stringify(allPrompts.slice().reverse()));
+        };
+
+        // --- Event Listeners ---
+        categoryListEl.addEventListener('click', (e) => {
+            if (e.target.matches('.category-box')) {
+                // 모든 버튼에서 active 클래스 제거
+                categoryListEl.querySelectorAll('.category-box').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                // 클릭된 버튼에 active 클래스 추가
+                e.target.classList.add('active');
+
+                currentCategory = e.target.dataset.category;
+                currentPage = 1; // 카테고리 변경 시 1페이지로 리셋
+                render();
+            }
+        });
+
+        searchInput.addEventListener('input', (e) => {
+            searchTerm = e.target.value;
+            currentPage = 1; // 검색 시 1페이지로 리셋
+            render();
+        });
+
+        promptListEl.addEventListener('click', (e) => {
+            const index = e.target.dataset.index;
+            if (index === undefined) return;
+
+            if (e.target.matches('.edit-btn')) {
+                const promptData = allPrompts[index];
+                editModalIndexInput.value = index;
+                editModalTitleInput.value = promptData.title;
+                editModalDescInput.value = promptData.desc;
+                editModalCategoryInput.value = promptData.category;
+                editModalBodyInput.value = promptData.body;
+                editModal.classList.add('show');
+            } else if (e.target.matches('.delete-btn')) {
+                deleteIndex = index;
+                deleteModalItemTitle.textContent = `"${allPrompts[index].title}"`;
+                deleteConfirmModal.classList.add('show');
+            }
+        });
+
+        editModalSaveBtn.addEventListener('click', () => {
+            const index = editModalIndexInput.value;
+            allPrompts[index] = {
+                title: editModalTitleInput.value,
+                desc: editModalDescInput.value,
+                category: editModalCategoryInput.value,
+                body: editModalBodyInput.value,
+            };
+            savePrompts();
             editModal.classList.remove('show');
-        }
+            render();
+        });
+
+        editModalCancelBtn.addEventListener('click', () => editModal.classList.remove('show'));
+
+        deleteModalConfirmBtn.addEventListener('click', () => {
+            if (deleteIndex !== null) {
+                allPrompts.splice(deleteIndex, 1);
+                savePrompts();
+                deleteConfirmModal.classList.remove('show');
+                deleteIndex = null;
+                render();
+            }
+        });
+
+        deleteModalCancelBtn.addEventListener('click', () => {
+            deleteConfirmModal.classList.remove('show');
+            deleteIndex = null;
+        });
+
+        // Initial Load
+        loadAndRender();
     });
 
-    // 페이지가 로드될 때 프롬프트 목록을 처음으로 렌더링합니다.
-    renderPromptList();
-    </script>
-    <script>includeHTML();</script>
+
+  </script>
+
+  <script>includeHTML();</script>
 </body>
-
-</html>
-    }
-
-    // 페이지가 로드될 때 프롬프트 목록을 처음으로 렌더링합니다.
-    renderPromptList();
-    </script>
-    <script>includeHTML();</script>
-</body>
-
 </html>
