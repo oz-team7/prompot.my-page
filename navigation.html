@@ -146,6 +146,15 @@
     .modal-content form button:hover {
       background: #e66a00;
     }
+    .modal-content form .signup-button {
+      margin-top: 10px; /* 로그인 버튼과의 간격 */
+      background: #fff;
+      color: #4A5568; /* 내비게이션 링크와 유사한 색상 */
+      border: 1px solid #ddd;
+    }
+    .modal-content form .signup-button:hover {
+      background: #f7fafc; /* 아주 연한 회색 */
+    }
 </style>
 <header class="prompot-header">
     <div class="container nav-container">
@@ -184,6 +193,7 @@
       <input type="email" placeholder="이메일" required />
       <input type="password" placeholder="비밀번호" required />
       <button type="submit">로그인</button>
+      <button type="button" class="signup-button">회원가입</button>
     </form>
   </div>
 </div>
@@ -195,6 +205,7 @@
   const loginModal = document.getElementById('loginModal');
   const loginForm = document.getElementById('loginForm');
   const logoutBtn = document.getElementById('logoutBtn');
+  const signupBtn = document.querySelector('.signup-button');
 
   /**
    * 로그인 상태에 따라 UI를 업데이트하는 함수
@@ -227,6 +238,11 @@
       // 로그인 실패
       alert('이메일 또는 비밀번호가 올바르지 않습니다.');
     }
+  });
+
+  // 회원가입 버튼 클릭 이벤트 처리
+  signupBtn.addEventListener('click', function() {
+    window.location.href = 'user_id.html';
   });
 
   // 로그아웃 버튼 클릭 이벤트 처리
