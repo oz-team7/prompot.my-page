@@ -19,7 +19,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: rgba(0,0,0,0.4);
+      background: rgba(0, 0, 0, 0.4);
       z-index: 1000;
       opacity: 0;
       transition: opacity 0.3s ease;
@@ -34,7 +34,7 @@
       border-radius: 0.5rem;
       width: 90%;
       max-width: 600px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      box-shadow: 0 5px 15px rgba(231, 226, 146, 0.1);
     }
     select, input, textarea {
       width: 100%;
@@ -93,12 +93,15 @@
         <button class="category-box" data-category="기술 문서">기술 문서</button>
         <button class="category-box" data-category="디자인">디자인</button>
         <button class="category-box" data-category="기타">기타</button>
+        <button id="add-category-btn" class="w-full mt-4 p-3 border-2 border-dashed border-gray-300 rounded-lg text-sm font-medium text-gray-500 hover:border-orange-400 hover:text-orange-600 hover:bg-orange-50 transition-all">
+          + 카테고리 추가
+        </button>
       </div>
     </aside>
 
     <!-- Main -->
     <main class="flex-grow py-12 w-full">
-      <h2 class="text-2xl font-bold text-gray-800 mb-8">생성된 프롬프트 목록</h2>
+      <h2 class="text-2xl font-bold text-orange-600 mb-8">내 프롬프트</h2>
       <div id="promptList" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
       <div id="pagination" class="flex justify-center mt-8 space-x-2"></div>
     </main>
@@ -126,7 +129,7 @@
       <label for="edit-modal-body">프롬프트 본문</label>
       <textarea id="edit-modal-body" rows="8" class="font-mono text-sm"></textarea>
       <div class="flex justify-end gap-3 mt-2">
-        <button id="edit-modal-save-btn" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">저장</button>
+        <button id="edit-modal-save-btn" class="bg-orange-600 text-white px-4 py-2 rounded-md hover:bg-orange-700">저장</button>
         <button id="edit-modal-cancel-btn" class="bg-gray-300 px-4 py-2 rounded-md">취소</button>
       </div>
     </div>
@@ -159,7 +162,20 @@
           <pre id="view-modal-body" class="w-full bg-yellow-50 text-gray-800 p-4 rounded-md font-mono text-sm whitespace-pre-wrap overflow-x-auto max-h-80"></pre>
       </div>
       <div class="flex justify-end gap-3 mt-6">
-        <button id="view-modal-close-btn" class="bg-gray-300 px-4 py-2 rounded-md">닫기</button>
+        <button id="view-modal-close-btn" class="bg-orange-600 text-white px-4 py-2 rounded-md hover:bg-orange-700 transition-colors">닫기</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Category Modal -->
+  <div id="add-category-modal" class="edit-modal">
+    <div class="edit-modal-content" style="max-width: 400px;">
+      <h3 class="text-xl font-bold mb-6 text-gray-800">새 카테고리 추가</h3>
+      <label for="new-category-name" class="text-sm font-medium text-gray-700">카테고리 이름</label>
+      <input type="text" id="new-category-name" placeholder="새 카테고리 이름을 입력하세요" class="mt-1" />
+      <div class="flex justify-end gap-3 mt-4">
+        <button id="add-category-save-btn" class="bg-orange-600 text-white px-4 py-2 rounded-md hover:bg-orange-700">추가</button>
+        <button id="add-category-cancel-btn" class="bg-gray-300 px-4 py-2 rounded-md">취소</button>
       </div>
     </div>
   </div>
@@ -172,6 +188,7 @@
         const categoryListEl = document.getElementById('categoryList');
         const searchInput = document.getElementById('searchInput');
         const paginationEl = document.getElementById('pagination');
+        const addCategoryBtn = document.getElementById('add-category-btn');
 
         // Modals
         const editModal = document.getElementById('edit-modal');
@@ -195,6 +212,11 @@
         const deleteModalConfirmBtn = document.getElementById('delete-modal-confirm-btn');
         const deleteModalCancelBtn = document.getElementById('delete-modal-cancel-btn');
         let deleteIndex = null; // To store the index of the item to be deleted
+
+        const addCategoryModal = document.getElementById('add-category-modal');
+        const newCategoryNameInput = document.getElementById('new-category-name');
+        const addCategorySaveBtn = document.getElementById('add-category-save-btn');
+        const addCategoryCancelBtn = document.getElementById('add-category-cancel-btn');
 
         // State
         let allPrompts = [];
@@ -309,6 +331,12 @@
             }
         });
 
+        addCategoryBtn.addEventListener('click', () => {
+            newCategoryNameInput.value = '';
+            addCategoryModal.classList.add('show');
+            newCategoryNameInput.focus();
+        });
+
         searchInput.addEventListener('input', (e) => {
             searchTerm = e.target.value;
             currentPage = 1; // 검색 시 1페이지로 리셋
@@ -354,6 +382,28 @@
             render();
         });
 
+        addCategorySaveBtn.addEventListener('click', () => {
+            const newCategoryName = newCategoryNameInput.value.trim();
+            if (newCategoryName) {
+                // 1. Create and add the new category button to the sidebar
+                const newButton = document.createElement('button');
+                newButton.className = 'category-box';
+                newButton.dataset.category = newCategoryName;
+                newButton.textContent = newCategoryName;
+                categoryListEl.insertBefore(newButton, addCategoryBtn);
+
+                // 2. Add the new category to the <select> in the edit modal
+                const newOption = document.createElement('option');
+                newOption.value = newCategoryName;
+                newOption.textContent = newCategoryName;
+                editModalCategoryInput.appendChild(newOption);
+
+                // 3. Close the modal
+                addCategoryModal.classList.remove('show');
+            } else {
+                alert('카테고리 이름을 입력하세요.');
+            }
+        });
 
 
         viewModalCloseBtn.addEventListener('click', () => viewModal.classList.remove('show'));
@@ -374,6 +424,8 @@
             deleteConfirmModal.classList.remove('show');
             deleteIndex = null;
         });
+
+        addCategoryCancelBtn.addEventListener('click', () => addCategoryModal.classList.remove('show'));
 
         // Initial Load
         loadAndRender();
