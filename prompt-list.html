@@ -41,12 +41,9 @@
       font-family: inherit;
     }
     .category-box {
-        display: block;
-        width: 100%;
-        padding: 0.75rem 1rem;
-        margin-bottom: 0.5rem;
+        padding: 0.5rem 1.25rem; /* 가로로 긴 버튼을 위해 패딩 조정 */
         border: 1px solid #e5e7eb; /* gray-200 */
-        border-radius: 0.5rem; /* rounded-lg */
+        border-radius: 9999px; /* pill shape */
         background-color: #ffffff; /* white */
         text-align: center;
         font-weight: 500;
@@ -73,30 +70,29 @@
   <div data-include="navigation.html"></div>
 
   <!-- Layout: Sidebar + Main -->
-  <div class="flex flex-grow max-w-7xl mx-auto w-full px-4">
+  <div class="flex-grow max-w-7xl mx-auto w-full px-4 py-12">
     
-    <!-- Sidebar -->
-    <aside class="w-48 mr-6 hidden md:block pt-12">
-      <h3 class="text-xl font-bold text-orange-600 mb-4 pb-2 border-b-2 border-orange-200 text-center">카테고리</h3>
-      <!-- Search Input -->
-      <div class="mb-4">
-        <input type="text" id="searchInput" placeholder="프롬프트 검색" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-orange-500 text-sm">
-      </div>
-      <div id="categoryList">
+    <!-- Filters Section -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-bold text-orange-600 mb-6 text-center">카테고리별로 모아보기</h2>
+      <div id="categoryList" class="flex flex-wrap justify-center items-center gap-3 mb-6">
         <button class="category-box active" data-category="전체">전체</button>
         <button class="category-box" data-category="콘텐츠 작성">콘텐츠 작성</button>
         <button class="category-box" data-category="마케팅">마케팅</button>
         <button class="category-box" data-category="기술 문서">기술 문서</button>
         <button class="category-box" data-category="디자인">디자인</button>
         <button class="category-box" data-category="기타">기타</button>
-        <button id="add-category-btn" class="w-full mt-4 p-3 border-2 border-dashed border-gray-300 rounded-lg text-sm font-medium text-gray-500 hover:border-orange-400 hover:text-orange-600 hover:bg-orange-50 transition-all">
-          + 카테고리 추가
+        <button id="add-category-btn" class="p-2 h-10 w-10 border-2 border-dashed border-gray-300 rounded-full text-lg font-medium text-gray-500 hover:border-orange-400 hover:text-orange-600 hover:bg-orange-50 transition-all flex items-center justify-center">
+          +
         </button>
       </div>
-    </aside>
+      <div class="max-w-md mx-auto">
+        <input type="text" id="searchInput" placeholder="프롬프트 검색" class="w-full border border-gray-300 rounded-full px-5 py-2 focus:ring-2 focus:ring-orange-500 text-sm text-center">
+      </div>
+    </section>
 
     <!-- Main -->
-    <main class="flex-grow py-12 w-full">
+    <main class="w-full">
       <h2 class="text-2xl font-bold text-orange-600 mb-8">내 프롬프트</h2>
       <div id="promptList" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
       <div id="pagination" class="flex justify-center mt-8 space-x-2"></div>

@@ -22,7 +22,7 @@
 
 
         <div class="mb-8">
-            <input type="text" placeholder="프롬프트 검색..." class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500">
+            <input type="text" id="searchInput" placeholder="프롬프트 검색..." class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-orange-500">
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -64,6 +64,23 @@
         </div>
 
     
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const searchInput = document.getElementById('searchInput');
+
+                searchInput.addEventListener('keypress', function(event) {
+                    if (event.key === 'Enter') {
+                        const searchTerm = searchInput.value;
+                        if (searchTerm) {
+                            // 검색어를 prompt-list.html 페이지로 전달합니다.
+                            window.location.href = `prompt-list.html?search=${encodeURIComponent(searchTerm)}`;
+                        }
+                    }
+                });
+            });
+        </script>
+
+
     </main>
 
     <div data-include="footer.html"></div>
