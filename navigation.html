@@ -157,10 +157,57 @@
     .modal-content form .signup-button:hover {
       background: #f7fafc; /* 아주 연한 회색 */
     }
+    .modal-content form .google-signup-button {
+      margin-top: 0; /* divider와 간격 조정 */
+      background: #fff;
+      color: #4A5568;
+      border: 1px solid #ddd;
+      /* 아이콘과 텍스트 정렬을 위한 flex 속성 추가 */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px; /* 아이콘과 텍스트 사이 간격 */
+    }
+    .modal-content form .google-signup-button:hover {
+      background: #f7fafc;
+    }
+    .modal-content .forgot-password-link {
+      text-align: right;
+      margin-top: 12px;
+    }
+    .modal-content .forgot-password-link a {
+        font-size: 0.875rem;
+        color: #4A5568;
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+    .modal-content .forgot-password-link a:hover {
+        color: #FF7A00;
+        text-decoration: underline;
+    }
+    .modal-content .divider {
+      display: flex;
+      align-items: center;
+      text-align: center;
+      color: #aaa;
+      margin: 15px 0;
+    }
+    .modal-content .divider::before,
+    .modal-content .divider::after {
+      content: '';
+      flex: 1;
+      border-bottom: 1px solid #ddd;
+    }
+    .modal-content .divider:not(:empty)::before {
+      margin-right: .5em;
+    }
+    .modal-content .divider:not(:empty)::after {
+      margin-left: .5em;
+    }
 </style>
 <header class="prompot-header">
     <div class="container nav-container">
-      <a href="index.html" class="logo-container">
+      <a href="https://oz-team7.github.io/prompot/" class="logo-container">
         <img src="LogoImage_Prompot.png" alt="PROMPOT 로고" />
         <span class="logo-text">PROMPOT</span>
       </a>
@@ -168,7 +215,7 @@
         <ul>
           <li><a href="search.html">검색</a></li>
           <li><a href="newpost.html">프롬프트 생성</a></li>
-          <li><a href="prompt-list.html">프롬프트 목록</a></li>
+          <li><a href="prompt-list.html">내 프롬프트</a></li>
           <li><a href="statistics.html">통계</a></li>  
           <li><a href="profile.html">내정보</a></li>
         </ul>
@@ -193,7 +240,26 @@
       <input type="email" placeholder="이메일" required />
       <input type="password" placeholder="비밀번호" required />
       <button type="submit">로그인</button>
-      <button type="button" class="signup-button">회원가입</button>
+      <div class="forgot-password-link">
+        <a href="#">비밀번호를 잊으셨나요?</a>
+      </div>
+      <div class="divider">또는</div>
+      <button type="button" class="google-signup-button">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M17.64 9.20455C17.64 8.56636 17.5827 7.95273 17.4764 7.36364H9V10.845H13.8436C13.635 11.97 13.0009 12.9232 12.0477 13.6114V15.8195H14.9564C16.6582 14.2527 17.64 11.9455 17.64 9.20455Z" fill="#4285F4"></path>
+          <path d="M9 18C11.43 18 13.4673 17.1941 14.9564 15.8195L12.0477 13.6114C11.2418 14.1014 10.2273 14.4205 9 14.4205C6.65591 14.4205 4.67182 12.8373 3.96409 10.71H0.957275V12.9918C2.43818 15.9832 5.48182 18 9 18Z" fill="#34A853"></path>
+          <path d="M3.96409 10.71C3.78409 10.1718 3.68182 9.59318 3.68182 9C3.68182 8.40682 3.78409 7.82818 3.96409 7.29V5.00818H0.957275C0.347727 6.17318 0 7.54773 0 9C0 10.4523 0.347727 11.8268 0.957275 12.9918L3.96409 10.71Z" fill="#FBBC05"></path>
+          <path d="M9 3.57955C10.3214 3.57955 11.5077 4.02409 12.4405 4.92545L15.0218 2.34409C13.4632 0.891818 11.4259 0 9 0C5.48182 0 2.43818 2.01682 0.957275 5.00818L3.96409 7.29C4.67182 5.16273 6.65591 3.57955 9 3.57955Z" fill="#EA4335"></path>
+        </svg>
+        <span>구글로 가입하기</span>
+      </button>
+       <button type="button" class="kakao-signup-button">
+        <svg width="18" height="18" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 0C5.373 0 0 4.477 0 10c0 3.348 1.957 6.293 4.96 8.26L3.016 23.215c-.12.339.214.637.537.498l6.087-2.605c.766.075 1.554.118 2.36.118 6.627 0 12-4.477 12-10S18.627 0 12 0z" fill="#191919"/>
+        </svg>
+        <span>카카오로 가입하기</span>
+      </button>
+      <button type="button" class="signup-button">이메일로 회원가입</button>
     </form>
   </div>
 </div>

@@ -266,6 +266,7 @@
                         <h3 data-index="${index}" class="view-btn text-xl font-bold text-orange-600 mb-2 cursor-pointer hover:underline">${data.title || '제목 없음'}</h3>
                         <p class="text-sm text-gray-500 bg-gray-100 px-2 py-1 rounded-full">${data.category}</p>
                     </div>
+                    <p class="text-sm text-gray-500">공개: ${data.isPublic ? '예' : '아니오'}</p>
                     <p class="text-gray-700 mb-4 h-12 overflow-hidden">${data.desc || '설명 없음'}</p>
                 </div>
                 <div class="flex justify-end gap-2 mt-4">
@@ -425,6 +426,7 @@
 
 
   </script>
+
 
   <script>includeHTML();</script>
 </body>

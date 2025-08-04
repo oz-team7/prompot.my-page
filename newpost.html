@@ -79,20 +79,25 @@
 
             <div class="grid md:grid-cols-2 gap-8">
                 <div>
+                    <label class="block text-sm font-medium text-gray-700 mt-6 mb-2">카테고리</label>
+                    <select id="categorySelect" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500">
+                        <option value="콘텐츠 작성">콘텐츠 작성</option>
+                        <option value="마케팅">마케팅</option>
+                        <option value="기술 문서">기술 문서</option>
                     <label class="block text-sm font-medium text-gray-700 mb-2">프롬프트 제목</label>
                     <input type="text" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500" value="AI 블로그 포스트 작성 프롬프트">
                 
                     <label class="block text-sm font-medium text-gray-700 mt-6 mb-2">프롬프트 설명</label>
                     <textarea class="w-full border border-gray-300 rounded-md px-3 py-2 h-32 focus:ring-2 focus:ring-blue-500">전문적이고 흥미로운 블로그 포스트를 작성하는 AI 프롬프트입니다. 특정 주제와 톤, 길이를 지정할 수 있습니다.</textarea>
                 
-                    <label class="block text-sm font-medium text-gray-700 mt-6 mb-2">카테고리</label>
-                    <select id="categorySelect" class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500">
-                        <option value="콘텐츠 작성">콘텐츠 작성</option>
-                        <option value="마케팅">마케팅</option>
-                        <option value="기술 문서">기술 문서</option>
                         <option value="디자인">디자인</option>
                         <option value="기타">기타</option>
                     </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mt-6 mb-2">공개 설정</label>
+                    <input type="checkbox" id="publicCheckbox" class="h-5 w-5 text-orange-600 focus:ring-orange-500 border-gray-300 rounded">
+                    <label for="publicCheckbox" class="ml-2 text-gray-900">공개 프롬프트로 설정</label>
                 </div>
 
                 <div>
@@ -165,7 +170,8 @@ Target Audience: {audience}</textarea>
             title,
             desc,
             category,
-            body
+            body,
+            isPublic: document.getElementById('publicCheckbox').checked
         };
         // 여러 프롬프트 저장을 위해 배열로 관리합니다.
         let promptList = JSON.parse(localStorage.getItem('promptList') || '[]');
